@@ -4,178 +4,520 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Sintezum обновляется</title>
+    <meta http-equiv="refresh" content="60" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Технические работы | Синтезум</title>
     <style>
       :root {
-        --ink: #17201b;
-        --muted: #647067;
-        --paper: #f4efe5;
-        --card: rgba(255, 252, 244, 0.84);
-        --line: rgba(23, 32, 27, 0.16);
-        --accent: #c66b35;
-        --accent-dark: #713d24;
-        --green: #215e4a;
+        --paper: #ffffff;
+        --paper-soft: #f7f7f5;
+        --ink: #1a2332;
+        --ink-soft: #4a5568;
+        --muted: #718096;
+        --line: #e5e8ec;
+        --line-strong: #d4d8de;
+        --accent: #b85c38;
+        --accent-wash: rgba(184, 92, 56, 0.08);
+        --shadow: 0 24px 60px rgba(26, 35, 50, 0.12);
       }
 
-      * {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
       }
 
-      html,
-      body {
+      html {
+        min-width: 320px;
         min-height: 100%;
+        background: var(--paper);
       }
 
       body {
+        min-height: 100vh;
         margin: 0;
+        overflow-x: hidden;
         color: var(--ink);
-        font-family: Georgia, "Times New Roman", serif;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
         background:
-          radial-gradient(circle at 18% 18%, rgba(198, 107, 53, 0.24), transparent 28rem),
-          radial-gradient(circle at 82% 16%, rgba(33, 94, 74, 0.22), transparent 26rem),
-          linear-gradient(135deg, #f8f2e6 0%, var(--paper) 45%, #e8dfd0 100%);
+          linear-gradient(rgba(26, 35, 50, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(26, 35, 50, 0.035) 1px, transparent 1px),
+          var(--paper);
+        background-size: 48px 48px;
       }
 
       body::before {
         position: fixed;
         inset: 0;
+        z-index: -1;
+        content: "";
         pointer-events: none;
-        content: "";
-        opacity: 0.34;
-        background-image:
-          linear-gradient(var(--line) 1px, transparent 1px),
-          linear-gradient(90deg, var(--line) 1px, transparent 1px);
-        background-size: 42px 42px;
-        mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 72%, transparent);
+        background:
+          radial-gradient(circle at 88% 14%, rgba(184, 92, 56, 0.1), transparent 24rem),
+          radial-gradient(circle at 12% 86%, rgba(26, 35, 50, 0.045), transparent 25rem);
       }
 
-      main {
-        display: grid;
+      .shell {
+        display: flex;
         min-height: 100vh;
-        padding: 32px;
-        place-items: center;
+        flex-direction: column;
       }
 
-      .card {
-        position: relative;
-        width: min(760px, 100%);
-        overflow: hidden;
-        padding: clamp(32px, 7vw, 72px);
-        border: 1px solid var(--line);
-        border-radius: 36px;
-        background: var(--card);
-        box-shadow: 0 28px 90px rgba(66, 49, 30, 0.18);
-        backdrop-filter: blur(18px);
+      .header {
+        width: 100%;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.9);
       }
 
-      .card::after {
-        position: absolute;
-        top: 28px;
-        right: 28px;
-        width: 96px;
-        height: 96px;
-        border: 1px solid rgba(198, 107, 53, 0.42);
-        border-radius: 999px;
-        content: "";
-        box-shadow: inset 0 0 0 18px rgba(198, 107, 53, 0.08);
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        gap: 10px;
+      .header__inner {
+        display: flex;
+        width: min(1280px, 100%);
+        min-height: 72px;
+        margin: 0 auto;
+        padding: 0 clamp(1.25rem, 4vw, 3.5rem);
         align-items: center;
-        margin: 0 0 28px;
-        color: var(--accent-dark);
-        font-family: "Trebuchet MS", Verdana, sans-serif;
-        font-size: 0.76rem;
+        justify-content: space-between;
+      }
+
+      .brand {
+        color: var(--ink);
+        font-size: 1.25rem;
         font-weight: 700;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.04em;
+      }
+
+      .service-state {
+        display: inline-flex;
+        gap: 0.55rem;
+        align-items: center;
+        color: var(--ink-soft);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
-      .pulse {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
+      .service-state::before {
+        width: 0.58rem;
+        height: 0.58rem;
+        border-radius: 50%;
+        content: "";
         background: var(--accent);
-        box-shadow: 0 0 0 0 rgba(198, 107, 53, 0.48);
-        animation: pulse 1.8s infinite;
+        box-shadow: 0 0 0 0 rgba(184, 92, 56, 0.3);
+        animation: signal 2.2s ease-out infinite;
+      }
+
+      .main {
+        display: grid;
+        width: min(1280px, 100%);
+        flex: 1;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+        gap: clamp(3rem, 8vw, 7rem);
+        margin: 0 auto;
+        padding: clamp(4rem, 10vh, 7rem) clamp(1.25rem, 4vw, 3.5rem);
+        align-items: center;
+      }
+
+      .copy {
+        animation: arrive 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      .eyebrow {
+        display: flex;
+        gap: 0.9rem;
+        margin: 0 0 1.5rem;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 2.5rem;
+        height: 1px;
+        content: "";
+        background: var(--accent);
       }
 
       h1 {
-        max-width: 11ch;
+        max-width: 780px;
         margin: 0;
-        font-size: clamp(3.2rem, 10vw, 7rem);
-        line-height: 0.88;
-        letter-spacing: -0.07em;
+        font-size: clamp(3rem, 6.6vw, 6rem);
+        font-weight: 650;
+        letter-spacing: -0.055em;
+        line-height: 0.98;
       }
 
-      p {
-        max-width: 34rem;
-        margin: 28px 0 0;
-        color: var(--muted);
-        font-family: "Trebuchet MS", Verdana, sans-serif;
-        font-size: clamp(1rem, 2vw, 1.16rem);
-        line-height: 1.75;
+      .lead {
+        max-width: 38rem;
+        margin: 2rem 0 0;
+        color: var(--ink-soft);
+        font-size: clamp(1rem, 1.5vw, 1.18rem);
+        line-height: 1.7;
       }
 
-      .status {
+      .actions {
         display: flex;
+        gap: 0.85rem;
+        margin-top: 2.25rem;
         flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 36px;
+        align-items: center;
       }
 
-      .chip {
-        padding: 10px 14px;
-        border: 1px solid var(--line);
+      .retry {
+        display: inline-flex;
+        min-height: 44px;
+        padding: 0.65rem 1.35rem;
+        border: 0;
         border-radius: 999px;
-        color: var(--green);
-        font-family: "Trebuchet MS", Verdana, sans-serif;
-        font-size: 0.88rem;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font: inherit;
+        font-size: 0.9rem;
         font-weight: 700;
-        background: rgba(255, 255, 255, 0.44);
+        text-decoration: none;
+        background: var(--accent);
+        box-shadow: 0 8px 24px rgba(184, 92, 56, 0.18);
+        transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
       }
 
-      @keyframes pulse {
+      .retry:hover {
+        background: #a84e2d;
+        box-shadow: 0 10px 28px rgba(184, 92, 56, 0.24);
+        transform: translateY(-2px);
+      }
+
+      .retry:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      .refresh-note {
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .visual {
+        position: relative;
+        min-height: 410px;
+        animation: arrive 0.7s 0.12s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      .diagram {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        border: 1px solid var(--line-strong);
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow);
+      }
+
+      .diagram::before {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background:
+          linear-gradient(rgba(26, 35, 50, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(26, 35, 50, 0.045) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      .diagram__label {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.25rem;
+        z-index: 2;
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .network {
+        position: absolute;
+        inset: 2.5rem 1rem 0;
+        width: calc(100% - 2rem);
+        height: calc(100% - 2.5rem);
+      }
+
+      .network__line {
+        fill: none;
+        stroke: #d4d8de;
+        stroke-width: 1.4;
+        stroke-dasharray: 6 8;
+        animation: flow 12s linear infinite;
+      }
+
+      .network__halo {
+        fill: var(--accent-wash);
+        stroke: rgba(184, 92, 56, 0.25);
+      }
+
+      .network__node {
+        fill: var(--paper);
+        stroke: var(--ink);
+        stroke-width: 1.6;
+      }
+
+      .network__node--accent {
+        fill: var(--accent);
+        stroke: var(--accent);
+      }
+
+      .network__text {
+        fill: var(--ink-soft);
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .progress {
+        position: absolute;
+        right: 1.25rem;
+        bottom: 1.25rem;
+        left: 1.25rem;
+        z-index: 2;
+        padding: 1rem 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 0.75rem;
+        background: rgba(247, 247, 245, 0.94);
+      }
+
+      .progress__row {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .progress__title {
+        color: var(--ink);
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .progress__value {
+        color: var(--accent);
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .progress__track {
+        height: 3px;
+        margin-top: 0.7rem;
+        overflow: hidden;
+        border-radius: 99px;
+        background: var(--line);
+      }
+
+      .progress__track::after {
+        display: block;
+        width: 42%;
+        height: 100%;
+        border-radius: inherit;
+        content: "";
+        background: var(--accent);
+        animation: progress 2.8s ease-in-out infinite alternate;
+      }
+
+      .footer {
+        display: flex;
+        width: min(1280px, 100%);
+        gap: 1rem;
+        margin: 0 auto;
+        padding: 0 clamp(1.25rem, 4vw, 3.5rem) 1.5rem;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .footer strong {
+        color: var(--ink-soft);
+        font-weight: 600;
+      }
+
+      @keyframes signal {
         70% {
-          box-shadow: 0 0 0 14px rgba(198, 107, 53, 0);
+          box-shadow: 0 0 0 10px rgba(184, 92, 56, 0);
         }
 
         100% {
-          box-shadow: 0 0 0 0 rgba(198, 107, 53, 0);
+          box-shadow: 0 0 0 0 rgba(184, 92, 56, 0);
         }
       }
 
-      @media (max-width: 560px) {
-        main {
-          padding: 18px;
+      @keyframes arrive {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
         }
 
-        .card {
-          border-radius: 26px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes flow {
+        to {
+          stroke-dashoffset: -140;
+        }
+      }
+
+      @keyframes progress {
+        from {
+          width: 18%;
         }
 
-        .card::after {
-          display: none;
+        to {
+          width: 78%;
+        }
+      }
+
+      @media (max-width: 820px) {
+        .main {
+          grid-template-columns: 1fr;
+          gap: 3.5rem;
+          padding-top: 3.5rem;
+        }
+
+        .visual {
+          min-height: 360px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .header__inner {
+          min-height: 64px;
+        }
+
+        .service-state {
+          font-size: 0;
+        }
+
+        .main {
+          gap: 3rem;
+          padding-top: 2.75rem;
+          padding-bottom: 3rem;
+        }
+
+        h1 {
+          font-size: clamp(2.7rem, 15vw, 4rem);
+        }
+
+        .lead {
+          margin-top: 1.5rem;
+        }
+
+        .actions {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .visual {
+          min-height: 310px;
+        }
+
+        .diagram {
+          border-radius: 0.8rem;
+        }
+
+        .network__text {
+          font-size: 10px;
+        }
+
+        .footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
         }
       }
     </style>
   </head>
   <body>
-    <main>
-      <section class="card" aria-labelledby="maintenance-title">
-        <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Технические работы</p>
-        <h1 id="maintenance-title">Sintezum обновляется</h1>
-        <p>
-          Мы на несколько минут закрыли доступ, чтобы аккуратно обновить сервис.
-          Данные пользователей в безопасности, а страница скоро вернётся в обычный режим.
-        </p>
-        <div class="status" aria-label="Статус работ">
-          <span class="chip">Обычно 5-10 минут</span>
-          <span class="chip">Можно обновить страницу позже</span>
+    <div class="shell">
+      <header class="header">
+        <div class="header__inner">
+          <div class="brand">Синтезум</div>
+          <div class="service-state">Обновление системы</div>
         </div>
-      </section>
-    </main>
+      </header>
+
+      <main class="main">
+        <section class="copy" aria-labelledby="maintenance-title">
+          <p class="eyebrow">Технические работы</p>
+          <h1 id="maintenance-title">Соединяем всё заново</h1>
+          <p class="lead">
+            Мы обновляем Синтезум, чтобы организации, лаборатории и исследователи
+            находили друг друга ещё быстрее. Данные в безопасности, доступ скоро восстановится.
+          </p>
+          <div class="actions">
+            <a class="retry" href="/">Проверить снова</a>
+            <span class="refresh-note">Страница обновится автоматически через минуту</span>
+          </div>
+        </section>
+
+        <section class="visual" aria-label="Обновление связей платформы">
+          <div class="diagram">
+            <p class="diagram__label">Экосистема Синтезум</p>
+            <svg class="network" viewBox="0 0 520 390" role="img" aria-labelledby="network-title">
+              <title id="network-title">Связи организаций, лабораторий и исследователей</title>
+              <path class="network__line" d="M98 118 C166 88 215 116 260 184 S352 264 429 202" />
+              <path class="network__line" d="M98 118 C139 208 178 251 260 184" />
+              <path class="network__line" d="M260 184 C311 116 354 91 422 116" />
+              <path class="network__line" d="M177 286 C209 260 225 226 260 184" />
+              <path class="network__line" d="M260 184 C310 230 345 260 409 283" />
+
+              <circle class="network__halo" cx="260" cy="184" r="52" />
+              <circle class="network__node network__node--accent" cx="260" cy="184" r="16" />
+              <text class="network__text" x="238" y="222">Синтезум</text>
+
+              <circle class="network__node" cx="98" cy="118" r="11" />
+              <text class="network__text" x="57" y="91">Организации</text>
+
+              <circle class="network__node" cx="422" cy="116" r="11" />
+              <text class="network__text" x="387" y="89">Лаборатории</text>
+
+              <circle class="network__node" cx="177" cy="286" r="11" />
+              <text class="network__text" x="124" y="318">Исследователи</text>
+
+              <circle class="network__node" cx="409" cy="283" r="11" />
+              <text class="network__text" x="378" y="316">Вакансии</text>
+            </svg>
+
+            <div class="progress" aria-label="Обновление выполняется">
+              <div class="progress__row">
+                <span class="progress__title">Синхронизация сервисов</span>
+                <span class="progress__value">В процессе</span>
+              </div>
+              <div class="progress__track" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span><strong>sintezum.ru</strong> · научные связи без границ</span>
+        <span>Код состояния: 503</span>
+      </footer>
+    </div>
   </body>
 </html>
