@@ -56,3 +56,22 @@ Add:
 
 Keep at least one backup copy outside the VPS.
 
+## Maintenance Page
+
+Nginx serves a static maintenance page when the frontend or backend is unavailable. You can also enable it manually before a planned deploy:
+
+```bash
+cd /opt/sintezum
+touch maintenance/enabled
+docker compose -f docker-compose.prod.yml exec nginx nginx -s reload
+```
+
+Disable maintenance mode:
+
+```bash
+cd /opt/sintezum
+rm maintenance/enabled
+docker compose -f docker-compose.prod.yml exec nginx nginx -s reload
+```
+
+The page itself is stored in `maintenance/index.html`.

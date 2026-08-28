@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Sintezum обновляется</title>
+    <style>
+      :root {
+        --ink: #17201b;
+        --muted: #647067;
+        --paper: #f4efe5;
+        --card: rgba(255, 252, 244, 0.84);
+        --line: rgba(23, 32, 27, 0.16);
+        --accent: #c66b35;
+        --accent-dark: #713d24;
+        --green: #215e4a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: Georgia, "Times New Roman", serif;
+        background:
+          radial-gradient(circle at 18% 18%, rgba(198, 107, 53, 0.24), transparent 28rem),
+          radial-gradient(circle at 82% 16%, rgba(33, 94, 74, 0.22), transparent 26rem),
+          linear-gradient(135deg, #f8f2e6 0%, var(--paper) 45%, #e8dfd0 100%);
+      }
+
+      body::before {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        content: "";
+        opacity: 0.34;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 72%, transparent);
+      }
+
+      main {
+        display: grid;
+        min-height: 100vh;
+        padding: 32px;
+        place-items: center;
+      }
+
+      .card {
+        position: relative;
+        width: min(760px, 100%);
+        overflow: hidden;
+        padding: clamp(32px, 7vw, 72px);
+        border: 1px solid var(--line);
+        border-radius: 36px;
+        background: var(--card);
+        box-shadow: 0 28px 90px rgba(66, 49, 30, 0.18);
+        backdrop-filter: blur(18px);
+      }
+
+      .card::after {
+        position: absolute;
+        top: 28px;
+        right: 28px;
+        width: 96px;
+        height: 96px;
+        border: 1px solid rgba(198, 107, 53, 0.42);
+        border-radius: 999px;
+        content: "";
+        box-shadow: inset 0 0 0 18px rgba(198, 107, 53, 0.08);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        margin: 0 0 28px;
+        color: var(--accent-dark);
+        font-family: "Trebuchet MS", Verdana, sans-serif;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .pulse {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 0 rgba(198, 107, 53, 0.48);
+        animation: pulse 1.8s infinite;
+      }
+
+      h1 {
+        max-width: 11ch;
+        margin: 0;
+        font-size: clamp(3.2rem, 10vw, 7rem);
+        line-height: 0.88;
+        letter-spacing: -0.07em;
+      }
+
+      p {
+        max-width: 34rem;
+        margin: 28px 0 0;
+        color: var(--muted);
+        font-family: "Trebuchet MS", Verdana, sans-serif;
+        font-size: clamp(1rem, 2vw, 1.16rem);
+        line-height: 1.75;
+      }
+
+      .status {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 36px;
+      }
+
+      .chip {
+        padding: 10px 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--green);
+        font-family: "Trebuchet MS", Verdana, sans-serif;
+        font-size: 0.88rem;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.44);
+      }
+
+      @keyframes pulse {
+        70% {
+          box-shadow: 0 0 0 14px rgba(198, 107, 53, 0);
+        }
+
+        100% {
+          box-shadow: 0 0 0 0 rgba(198, 107, 53, 0);
+        }
+      }
+
+      @media (max-width: 560px) {
+        main {
+          padding: 18px;
+        }
+
+        .card {
+          border-radius: 26px;
+        }
+
+        .card::after {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="card" aria-labelledby="maintenance-title">
+        <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Технические работы</p>
+        <h1 id="maintenance-title">Sintezum обновляется</h1>
+        <p>
+          Мы на несколько минут закрыли доступ, чтобы аккуратно обновить сервис.
+          Данные пользователей в безопасности, а страница скоро вернётся в обычный режим.
+        </p>
+        <div class="status" aria-label="Статус работ">
+          <span class="chip">Обычно 5-10 минут</span>
+          <span class="chip">Можно обновить страницу позже</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
