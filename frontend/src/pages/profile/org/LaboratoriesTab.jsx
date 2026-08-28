@@ -21,6 +21,7 @@ import { Card, EntityAvatar } from "../../../components/ui";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Badge } from "../../../components/ui/Badge";
+import NewEntityBadge from "../../../components/NewEntityBadge";
 import { useEditOverlayScrollLock } from "../../../hooks";
 
 /**
@@ -115,8 +116,11 @@ export default function LaboratoriesTab({
                 <div className="lab-dashboard-card__icon">
                   <Beaker size={20} />
                 </div>
-                <div>
-                  <h4 className="lab-dashboard-card__name">{lab.name}</h4>
+                <div className="entity-dashboard-title-block">
+                  <div className="entity-title-with-badge">
+                    <h4 className="lab-dashboard-card__name">{lab.name}</h4>
+                    <NewEntityBadge createdAt={lab.created_at} />
+                  </div>
                   <Badge variant={lab.is_published ? "published" : "draft"}>
                     {lab.is_published ? "Опубликовано" : "Черновик"}
                   </Badge>

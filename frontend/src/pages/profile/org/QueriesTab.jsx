@@ -23,6 +23,7 @@ import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Badge } from "../../../components/ui/Badge";
+import NewEntityBadge from "../../../components/NewEntityBadge";
 import { useEditOverlayScrollLock } from "../../../hooks";
 
 const STATUS_OPTIONS = [
@@ -106,8 +107,11 @@ export default function QueriesTab({
                 <div className="query-dashboard-card__icon">
                   <HelpCircle size={20} />
                 </div>
-                <div>
-                  <h4 className="query-dashboard-card__name">{query.title}</h4>
+                <div className="entity-dashboard-title-block">
+                  <div className="entity-title-with-badge">
+                    <h4 className="query-dashboard-card__name">{query.title}</h4>
+                    <NewEntityBadge createdAt={query.created_at} />
+                  </div>
                   <Badge variant={query.is_published ? "published" : "draft"}>
                     {query.is_published ? "Опубликован" : "Черновик"}
                   </Badge>

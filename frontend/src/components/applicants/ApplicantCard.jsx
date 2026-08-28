@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { User, GraduationCap, Briefcase, ChevronRight } from "lucide-react";
+import NewEntityBadge from "../NewEntityBadge";
 import { Card, Button, EntityAvatar } from "../ui";
 
 const ROLE_LABELS = { student: "Студент", researcher: "Исследователь" };
@@ -41,18 +42,21 @@ export default function ApplicantCard({ applicant, onOpen }) {
             <div className="modern-entity-card__title-icon">
               <User size={18} />
             </div>
-            <h3 className="modern-entity-card__title">
-              {hasLink ? (
-                <Link
-                  to={`/applicants/${applicant.public_id}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {displayName}
-                </Link>
-              ) : (
-                <span>{displayName}</span>
-              )}
-            </h3>
+            <div className="entity-title-with-badge">
+              <h3 className="modern-entity-card__title">
+                {hasLink ? (
+                  <Link
+                    to={`/applicants/${applicant.public_id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {displayName}
+                  </Link>
+                ) : (
+                  <span>{displayName}</span>
+                )}
+              </h3>
+              <NewEntityBadge createdAt={applicant.created_at} />
+            </div>
           </div>
 
           {roleLabel && (

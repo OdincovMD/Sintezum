@@ -21,6 +21,7 @@ import { QueryCard, QueryFilters, QuerySearchBar, QueryDetailSidebar, QueryDetai
 import { OrganizationSection, OrganizationDetailCard, OrgDetailCardBlock } from "../components/organization";
 import { Drawer, Button, Card, Badge } from "../components/ui";
 import { EmployeeCard } from "../components/EmployeeCard";
+import NewEntityBadge from "../components/NewEntityBadge";
 
 export default function Queries() {
   const navigate = useNavigate();
@@ -224,9 +225,12 @@ export default function Queries() {
                 {details.linked_task_solution && (
                   <OrganizationSection title="Связанная решённая задача" icon={<ClipboardCheck size={20} />}>
                     <OrganizationDetailCard variant="task">
-                      <h3 className="org-detail-card__title">
-                        {details.linked_task_solution.title}
-                      </h3>
+                      <div className="entity-title-with-badge">
+                        <h3 className="org-detail-card__title">
+                          {details.linked_task_solution.title}
+                        </h3>
+                        <NewEntityBadge createdAt={details.linked_task_solution.created_at} />
+                      </div>
                       {(details.linked_task_solution.task_description ||
                         details.linked_task_solution.solution_description) && (
                         <OrgDetailCardBlock icon={FileText} label="Описание">
@@ -261,7 +265,10 @@ export default function Queries() {
                   <div className="org-detail-grid">
                     {(details.laboratories || []).map((lab) => (
                       <OrganizationDetailCard key={lab.id} clickable onClick={() => openLab(lab.public_id)}>
-                        <h3 className="org-detail-card__title">{lab.name}</h3>
+                        <div className="entity-title-with-badge">
+                          <h3 className="org-detail-card__title">{lab.name}</h3>
+                          <NewEntityBadge createdAt={lab.created_at} />
+                        </div>
                         {lab.activities && (
                           <OrgDetailCardBlock icon={Layers} label="Направления">
                             <p className="org-detail-card__text org-detail-card__text--truncated">{lab.activities}</p>
@@ -304,7 +311,10 @@ export default function Queries() {
                   <div className="org-detail-grid">
                     {(details.vacancies || []).map((vacancy) => (
                       <OrganizationDetailCard key={vacancy.id} variant="vacancy">
-                        <h3 className="org-detail-card__title">{vacancy.name}</h3>
+                        <div className="entity-title-with-badge">
+                          <h3 className="org-detail-card__title">{vacancy.name}</h3>
+                          <NewEntityBadge createdAt={vacancy.created_at} />
+                        </div>
                         {vacancy.employment_type && (
                           <OrgDetailCardBlock icon={Briefcase} label="Тип занятости">
                             <span className="org-detail-chip org-detail-chip--status">

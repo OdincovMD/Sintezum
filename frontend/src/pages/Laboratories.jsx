@@ -35,6 +35,7 @@ import { Drawer, Button, Card, Badge } from "../components/ui";
 import { EmployeeCard } from "../components/EmployeeCard";
 import EquipmentModal from "./profile/EquipmentModal";
 import EmptySearchFallback from "../components/EmptySearchFallback";
+import NewEntityBadge from "../components/NewEntityBadge";
 
 const LABORATORIES_PAGE_SIZE = 20;
 
@@ -616,7 +617,10 @@ export default function Laboratories() {
                       <div className="org-detail-grid">
                     {(details.task_solutions || []).map((task) => (
                       <LabDetailCard key={task.id} variant="task">
-                        <h3 className="org-detail-card__title">{task.title}</h3>
+                        <div className="entity-title-with-badge">
+                          <h3 className="org-detail-card__title">{task.title}</h3>
+                          <NewEntityBadge createdAt={task.created_at} />
+                        </div>
                         {(task.task_description || task.solution_description) && (
                           <OrgDetailCardBlock icon={FileText} label="Описание">
                             <p className="org-detail-card__text" title={task.task_description || task.solution_description}>
@@ -674,7 +678,10 @@ export default function Laboratories() {
                           }
                         }}
                       >
-                        <h3 className="org-detail-card__title">{query.title}</h3>
+                        <div className="entity-title-with-badge">
+                          <h3 className="org-detail-card__title">{query.title}</h3>
+                          <NewEntityBadge createdAt={query.created_at} />
+                        </div>
                         {query.status && (
                           <OrgDetailCardBlock icon={HelpCircle} label="Статус">
                             <span className="org-detail-chip org-detail-chip--status">
@@ -726,7 +733,10 @@ export default function Laboratories() {
                       <div className="org-detail-grid">
                     {(details.vacancies || []).map((vacancy) => (
                       <LabDetailCard key={vacancy.id} variant="vacancy">
-                        <h3 className="org-detail-card__title">{vacancy.name}</h3>
+                        <div className="entity-title-with-badge">
+                          <h3 className="org-detail-card__title">{vacancy.name}</h3>
+                          <NewEntityBadge createdAt={vacancy.created_at} />
+                        </div>
                         {vacancy.employment_type && (
                           <OrgDetailCardBlock icon={Briefcase} label="Тип занятости">
                             <span className="org-detail-chip org-detail-chip--status">

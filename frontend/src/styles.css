@@ -3368,6 +3368,30 @@ body.edit-overlay-open {
   font-weight: 700;
 }
 
+.entity-title-with-badge {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  min-width: 0;
+}
+
+.entity-title-with-badge > :first-child {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.new-entity-badge {
+  margin-top: 0.12rem;
+  letter-spacing: 0.01em;
+}
+
+.entity-dashboard-title-block {
+  flex: 1;
+  min-width: 0;
+}
+
 .ui-card--solid {
   background: var(--card-bg);
   backdrop-filter: none;
@@ -18421,5 +18445,22 @@ a.request-card__title:hover {
   .feedback-modal__actions .primary-btn,
   .feedback-modal__actions .ghost-btn {
     width: 100%;
+  }
+}
+
+/* Shared responsive title line for entity cards and the "Новое" marker. */
+@media (max-width: 640px) {
+  .entity-title-with-badge {
+    gap: 0.3rem 0.4rem;
+  }
+
+  .entity-title-with-badge > :first-child {
+    flex-basis: 9rem;
+  }
+
+  .new-entity-badge {
+    height: 1.125rem;
+    padding-inline: 0.4rem;
+    font-size: 0.6875rem;
   }
 }

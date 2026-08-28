@@ -35,6 +35,7 @@ import EmployeeModal from "./profile/EmployeeModal";
 import EquipmentModal from "./profile/EquipmentModal";
 import GalleryModal from "./profile/GalleryModal";
 import EmptySearchFallback from "../components/EmptySearchFallback";
+import NewEntityBadge from "../components/NewEntityBadge";
 
 const ORGANIZATIONS_PAGE_SIZE = 20;
 
@@ -493,7 +494,10 @@ export default function Organizations() {
                           onMediaClick={labMedia.images.length > 0 ? () => openGallery(labMedia.images, 0) : undefined}
                           mediaBadge={labMedia.images.length > 1 ? labMedia.images.length - 1 : 0}
                         >
-                          <h3 className="org-detail-card__title">{lab.name}</h3>
+                          <div className="entity-title-with-badge">
+                            <h3 className="org-detail-card__title">{lab.name}</h3>
+                            <NewEntityBadge createdAt={lab.created_at} />
+                          </div>
                           {lab.head_employee && (
                             <OrgDetailCardBlock icon={User} label="Руководитель">
                               <p className="org-detail-card__text">{lab.head_employee.full_name}</p>
@@ -620,7 +624,10 @@ export default function Organizations() {
                       <div className="org-detail-grid">
                     {detailsMap[selectedId].task_solutions.map((task) => (
                       <OrganizationDetailCard key={task.id} variant="task">
-                        <h3 className="org-detail-card__title">{task.title}</h3>
+                        <div className="entity-title-with-badge">
+                          <h3 className="org-detail-card__title">{task.title}</h3>
+                          <NewEntityBadge createdAt={task.created_at} />
+                        </div>
                         {(task.task_description || task.solution_description) && (
                           <OrgDetailCardBlock icon={FileText} label="Описание">
                             <p className="org-detail-card__text" title={task.task_description || task.solution_description}>
@@ -690,7 +697,10 @@ export default function Organizations() {
                           }
                         }}
                       >
-                        <h3 className="org-detail-card__title">{query.title}</h3>
+                        <div className="entity-title-with-badge">
+                          <h3 className="org-detail-card__title">{query.title}</h3>
+                          <NewEntityBadge createdAt={query.created_at} />
+                        </div>
                         {query.status && (
                           <OrgDetailCardBlock icon={HelpCircle} label="Статус">
                             <span className="org-detail-chip org-detail-chip--status">
@@ -742,7 +752,10 @@ export default function Organizations() {
                       <div className="org-detail-grid">
                     {detailsMap[selectedId].vacancies.map((vacancy) => (
                       <OrganizationDetailCard key={vacancy.id} variant="vacancy">
-                        <h3 className="org-detail-card__title">{vacancy.name}</h3>
+                        <div className="entity-title-with-badge">
+                          <h3 className="org-detail-card__title">{vacancy.name}</h3>
+                          <NewEntityBadge createdAt={vacancy.created_at} />
+                        </div>
                         {vacancy.employment_type && (
                           <OrgDetailCardBlock icon={Briefcase} label="Тип занятости">
                             <span className="org-detail-chip org-detail-chip--status">

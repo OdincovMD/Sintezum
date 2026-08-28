@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MapPin, Globe, Building2, ChevronRight } from "lucide-react";
 import WebsiteLink from "../WebsiteLink";
+import NewEntityBadge from "../NewEntityBadge";
 import { Card, Button, EntityAvatar } from "../ui";
 
 const DESCRIPTION_MAX = 140;
@@ -38,18 +39,21 @@ export default function OrganizationCard({ org, onOpen }) {
             <div className="modern-entity-card__title-icon">
               <Building2 size={18} />
             </div>
-            <h3 className="modern-entity-card__title">
-              {hasLink ? (
-                <Link
-                  to={`/organizations/${org.public_id}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {displayName}
-                </Link>
-              ) : (
-                <span>{displayName}</span>
-              )}
-            </h3>
+            <div className="entity-title-with-badge">
+              <h3 className="modern-entity-card__title">
+                {hasLink ? (
+                  <Link
+                    to={`/organizations/${org.public_id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {displayName}
+                  </Link>
+                ) : (
+                  <span>{displayName}</span>
+                )}
+              </h3>
+              <NewEntityBadge createdAt={org.created_at} />
+            </div>
           </div>
 
           <div className="modern-entity-card__meta modern-entity-card__meta--with-icons">

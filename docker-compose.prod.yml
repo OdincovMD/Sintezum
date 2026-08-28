@@ -26,6 +26,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
+      args:
+        VITE_NEW_ENTITY_THRESHOLD_DAYS: ${VITE_NEW_ENTITY_THRESHOLD_DAYS:-2}
     container_name: sintezum_frontend
     expose:
       - "80"

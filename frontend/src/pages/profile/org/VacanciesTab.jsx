@@ -23,6 +23,7 @@ import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Badge } from "../../../components/ui/Badge";
+import NewEntityBadge from "../../../components/NewEntityBadge";
 import { useEditOverlayScrollLock } from "../../../hooks";
 
 /**
@@ -270,8 +271,11 @@ export default function VacanciesTab({
                 <div className="vacancy-dashboard-card__icon">
                   <Briefcase size={20} />
                 </div>
-                <div>
-                  <h4 className="vacancy-dashboard-card__name">{vacancy.name}</h4>
+                <div className="entity-dashboard-title-block">
+                  <div className="entity-title-with-badge">
+                    <h4 className="vacancy-dashboard-card__name">{vacancy.name}</h4>
+                    <NewEntityBadge createdAt={vacancy.created_at} />
+                  </div>
                   <Badge variant={vacancy.is_published ? "published" : "draft"}>
                     {vacancy.is_published ? "Опубликовано" : "Черновик"}
                   </Badge>

@@ -20,6 +20,7 @@ import { normalizeWebsiteInput } from "../../../utils/validation";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
+import NewEntityBadge from "../../../components/NewEntityBadge";
 import { useEditOverlayScrollLock } from "../../../hooks";
 
 /**
@@ -154,8 +155,11 @@ export default function TasksTab({
                 <div className="task-dashboard-card__icon">
                   <ClipboardCheck size={20} />
                 </div>
-                <div>
-                  <h4 className="task-dashboard-card__name">{task.title}</h4>
+                <div className="entity-dashboard-title-block">
+                  <div className="entity-title-with-badge">
+                    <h4 className="task-dashboard-card__name">{task.title}</h4>
+                    <NewEntityBadge createdAt={task.created_at} />
+                  </div>
                 </div>
               </div>
             </div>

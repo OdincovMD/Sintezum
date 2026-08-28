@@ -436,6 +436,7 @@ class ApplicantListItem(BaseModel):
     photo_url: Optional[str] = None
     role: str
     summary: Optional[str] = None
+    created_at: Optional[datetime] = None
 
 
 class ApplicantDetail(BaseModel):

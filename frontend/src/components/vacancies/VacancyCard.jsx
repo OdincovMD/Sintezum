@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Briefcase, Building2, Beaker, ChevronRight } from "lucide-react";
+import NewEntityBadge from "../NewEntityBadge";
 import { Card, Badge, Button } from "../ui";
 
 const EXCERPT_LENGTH = 120;
@@ -43,13 +44,16 @@ export function VacancyCard({ vacancy, onClick, onKeyDown }) {
           <div className="vacancy-card-modern__title-icon">
             <Briefcase size={18} />
           </div>
-          <Link
-            to={vacancy.public_id ? `/vacancies/${vacancy.public_id}` : "#"}
-            className="vacancy-card-modern__title"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {vacancy.name || "Вакансия"}
-          </Link>
+          <div className="entity-title-with-badge">
+            <Link
+              to={vacancy.public_id ? `/vacancies/${vacancy.public_id}` : "#"}
+              className="vacancy-card-modern__title"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {vacancy.name || "Вакансия"}
+            </Link>
+            <NewEntityBadge createdAt={vacancy.created_at} />
+          </div>
         </div>
       </div>
 

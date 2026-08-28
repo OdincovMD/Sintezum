@@ -31,6 +31,7 @@ def _org_to_dict(o) -> dict:
         "avatar_url": getattr(o, "avatar_url"),
         "address": getattr(o, "address"),
         "website": getattr(o, "website"),
+        "created_at": getattr(o, "created_at", None),
     }
 
 
@@ -45,6 +46,7 @@ def _lab_to_dict(l, hide_unpublished_org: bool = True) -> dict:
         "description": getattr(l, "description"),
         "activities": getattr(l, "activities"),
         "image_urls": getattr(l, "image_urls") or [],
+        "created_at": getattr(l, "created_at", None),
         "organization": (
             {
                 "id": org.id,

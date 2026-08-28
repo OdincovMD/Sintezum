@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { HelpCircle, Building2, Beaker, Layers, CalendarClock, Wallet, ChevronRight } from "lucide-react";
+import NewEntityBadge from "../NewEntityBadge";
 import { Card, Badge, Button } from "../ui";
 
 const QUERY_STATUS_LABELS = { active: "Открыт", paused: "На паузе", closed: "Закрыт" };
@@ -41,18 +42,21 @@ export default function QueryCard({ query, onOpen, navigate }) {
             <div className="query-card-modern__title-icon">
               <HelpCircle size={18} />
             </div>
-            <h3 className="query-card-modern__title">
-              {hasLink ? (
-                <Link
-                  to={`/queries/${query.public_id}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {title}
-                </Link>
-              ) : (
-                <span>{title}</span>
-              )}
-            </h3>
+            <div className="entity-title-with-badge">
+              <h3 className="query-card-modern__title">
+                {hasLink ? (
+                  <Link
+                    to={`/queries/${query.public_id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {title}
+                  </Link>
+                ) : (
+                  <span>{title}</span>
+                )}
+              </h3>
+              <NewEntityBadge createdAt={query.created_at} />
+            </div>
           </div>
 
           <div className="query-card-modern__meta query-card-modern__meta--with-icons">

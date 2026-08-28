@@ -135,6 +135,7 @@ def _doc_to_applicant_item(doc: dict) -> dict:
         "photo_url": source.get("photo_url"),
         "role": source.get("role", ""),
         "summary": source.get("summary"),
+        "created_at": source.get("created_at"),
     }
 
 

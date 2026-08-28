@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Beaker, Building2, User, ChevronRight } from "lucide-react";
+import NewEntityBadge from "../NewEntityBadge";
 import { Card, Badge, Button, EntityAvatar } from "../ui";
 
 const DESCRIPTION_MAX = 140;
@@ -39,18 +40,21 @@ export default function LabCard({ lab, labImages, onOpen, navigate }) {
             <div className="modern-entity-card__title-icon">
               <Beaker size={18} />
             </div>
-            <h3 className="modern-entity-card__title">
-              {hasLink ? (
-                <Link
-                  to={`/laboratories/${lab.public_id}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {displayName}
-                </Link>
-              ) : (
-                <span>{displayName}</span>
-              )}
-            </h3>
+            <div className="entity-title-with-badge">
+              <h3 className="modern-entity-card__title">
+                {hasLink ? (
+                  <Link
+                    to={`/laboratories/${lab.public_id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {displayName}
+                  </Link>
+                ) : (
+                  <span>{displayName}</span>
+                )}
+              </h3>
+              <NewEntityBadge createdAt={lab.created_at} />
+            </div>
           </div>
 
           <div className="modern-entity-card__meta modern-entity-card__meta--with-icons">

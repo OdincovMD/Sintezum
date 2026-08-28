@@ -2,6 +2,9 @@ FROM node:22-alpine AS build
 
 WORKDIR /app
 
+ARG VITE_NEW_ENTITY_THRESHOLD_DAYS=2
+ENV VITE_NEW_ENTITY_THRESHOLD_DAYS=${VITE_NEW_ENTITY_THRESHOLD_DAYS}
+
 COPY package.json package-lock.json* ./
 RUN npm ci
 
