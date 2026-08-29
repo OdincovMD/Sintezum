@@ -17,6 +17,7 @@ import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Badge } from "../../../components/ui/Badge";
+import NewEntityBadge from "../../../components/NewEntityBadge";
 import { useEditOverlayScrollLock } from "../../../hooks";
 
 /**
@@ -117,8 +118,11 @@ export default function EquipmentTab({
                 <div className="equipment-dashboard-card__icon">
                   <Wrench size={20} />
                 </div>
-                <div>
-                  <h4 className="equipment-dashboard-card__name">{item.name}</h4>
+                <div className="entity-dashboard-title-block">
+                  <div className="entity-title-with-badge">
+                    <h4 className="equipment-dashboard-card__name">{item.name}</h4>
+                    <NewEntityBadge createdAt={item.created_at} />
+                  </div>
                   {(item.laboratories || []).length > 0 && (
                     <Badge variant="accent">
                       <Beaker size={12} style={{ marginRight: '4px' }} />

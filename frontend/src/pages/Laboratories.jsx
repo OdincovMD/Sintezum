@@ -586,7 +586,10 @@ export default function Laboratories() {
                             }
                           }}
                         >
-                          <h3 className="org-detail-card__title">{item.name}</h3>
+                          <div className="entity-title-with-badge">
+                            <h3 className="org-detail-card__title">{item.name}</h3>
+                            <NewEntityBadge createdAt={item.created_at} />
+                          </div>
                           {item.characteristics && (
                             <OrgDetailCardBlock icon={Sliders} label="Характеристики">
                               <p className="org-detail-card__text" style={{ fontWeight: 500, color: 'var(--text-primary-alt)' }}>

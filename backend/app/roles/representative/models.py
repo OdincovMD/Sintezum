@@ -146,6 +146,7 @@ class OrganizationEquipment(BaseModel):
     __tablename__ = "equipment_organizations"
 
     id = Column(Integer, primary_key=True, index=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=True)
     organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="SET NULL"), nullable=True)
     creator_user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     name = Column(String(255), nullable=False)
@@ -361,6 +362,7 @@ class Employee(BaseModel):
     __tablename__ = "employees"
 
     id = Column(Integer, primary_key=True, index=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=True)
     organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="SET NULL"), nullable=True)
     creator_user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True, unique=True)

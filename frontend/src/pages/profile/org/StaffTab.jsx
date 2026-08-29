@@ -23,6 +23,7 @@ import { Card, EntityAvatar } from "../../../components/ui";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Badge } from "../../../components/ui/Badge";
+import NewEntityBadge from "../../../components/NewEntityBadge";
 import { useEditOverlayScrollLock } from "../../../hooks";
 
 function TagInput({ value = [], onChange, placeholder, id }) {
@@ -218,7 +219,10 @@ export default function StaffTab({
                     <EntityAvatar src={employee.photo_url} alt="" />
                   </div>
                   <div className="employee-dashboard-card__title-group">
-                    <h4 className="employee-dashboard-card__name">{employee.full_name}</h4>
+                    <div className="entity-title-with-badge">
+                      <h4 className="employee-dashboard-card__name">{employee.full_name}</h4>
+                      <NewEntityBadge createdAt={employee.created_at} />
+                    </div>
                     {employee.academic_degree && (
                       <span className="employee-dashboard-card__degree">{employee.academic_degree}</span>
                     )}

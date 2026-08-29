@@ -162,6 +162,7 @@ async def get_laboratory_details(public_id: str):
         he = lab.head_employee
         head_short = {
             "id": he.id,
+            "created_at": getattr(he, "created_at", None),
             "full_name": he.full_name or "",
             "positions": getattr(he, "positions", None),
             "academic_degree": getattr(he, "academic_degree", None),

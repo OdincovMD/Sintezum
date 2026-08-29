@@ -152,6 +152,7 @@ class OrganizationEquipmentCreate(OrganizationEquipmentBase):
 
 class OrganizationEquipmentRead(ORMModel, OrganizationEquipmentBase):
     id: int
+    created_at: Optional[datetime] = None
     organization_id: Optional[int] = None
     laboratories: Optional[List["OrganizationLaboratoryShort"]] = None
 
@@ -186,6 +187,7 @@ class OrganizationLaboratoryCreate(OrganizationLaboratoryBase):
 
 class EmployeeShort(ORMModel):
     id: int
+    created_at: Optional[datetime] = None
     full_name: str
     positions: Optional[List[str]] = None
     academic_degree: Optional[str] = None
@@ -389,6 +391,7 @@ class EmployeeCreate(EmployeeBase):
 
 class EmployeeRead(ORMModel, EmployeeBase):
     id: int
+    created_at: Optional[datetime] = None
     organization_id: Optional[int] = None
     laboratories: Optional[List[OrganizationLaboratoryShort]] = None
 

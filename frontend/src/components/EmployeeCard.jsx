@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronRight } from "lucide-react";
+import NewEntityBadge from "./NewEntityBadge";
 import { Card, EntityAvatar } from "./ui";
 
 /**
@@ -52,7 +53,10 @@ export function EmployeeCard({
         {isList && !actions && listLabel !== "" && (
           <span className="employee-card__label">{listLabel ?? "Контактное лицо"}</span>
         )}
-        <h3 className="employee-card__name">{employee.full_name}</h3>
+        <div className="entity-title-with-badge">
+          <h3 className="employee-card__name">{employee.full_name}</h3>
+          <NewEntityBadge createdAt={employee.created_at} />
+        </div>
         {meta && <p className="employee-card__meta">{meta}</p>}
         {isList && !actions && (
           <span className="employee-card__cta">
