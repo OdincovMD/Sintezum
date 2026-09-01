@@ -8,6 +8,8 @@ import {
   GlobeIcon 
 } from "../../../components/auth";
 import OrgOpenAlexSection from "../OrgOpenAlexSection";
+import PublicSectionVisibility from "../../../components/PublicSectionVisibility";
+import { ORGANIZATION_PUBLIC_SECTIONS } from "../../../utils/publicSections";
 
 /**
  * Модуль «Профиль организации»: название, аватар, адрес, сайт, описание, сохранение и публикация.
@@ -114,6 +116,15 @@ export default function ProfileTab({
             icon={<GlobeIcon />}
           />
         </div>
+      </div>
+
+      <div className="profile-form-group">
+        <div className="profile-form-group-title">Разделы публичной страницы</div>
+        <PublicSectionVisibility
+          sections={ORGANIZATION_PUBLIC_SECTIONS}
+          hiddenSections={orgProfile?.hidden_public_sections}
+          onChange={(value) => handleOrgChange("hidden_public_sections", value)}
+        />
       </div>
 
       <div className="profile-form-group">

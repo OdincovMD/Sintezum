@@ -32,6 +32,7 @@ def _lab_to_read(lab):
         "activities": lab.activities,
         "image_urls": lab.image_urls or [],
         "is_published": getattr(lab, "is_published", False),
+        "hidden_public_sections": getattr(lab, "hidden_public_sections", None) or [],
         "created_at": lab.created_at,
         "organization_id": lab.organization_id,
         "creator_user_id": getattr(lab, "creator_user_id", None),
@@ -92,6 +93,7 @@ async def update_laboratory_admin(
         head_employee_id=patch.get("head_employee_id"),
         equipment_ids=patch.get("equipment_ids"),
         task_solution_ids=patch.get("task_solution_ids"),
+        hidden_public_sections=patch.get("hidden_public_sections"),
     )
     if not lab:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Laboratory not found")

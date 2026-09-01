@@ -488,6 +488,7 @@ class Orm:
         address: Optional[str] = None,
         website: Optional[str] = None,
         ror_id: Optional[str] = None,
+        hidden_public_sections: Optional[List[str]] = None,
     ) -> models.Organization:
         async with async_session_factory() as session:
             user = await session.get(models.User, user_id)
@@ -546,6 +547,7 @@ class Orm:
                     description=description,
                     address=address,
                     website=website,
+                    hidden_public_sections=list(hidden_public_sections or []),
                     creator_user_id=user.id,
                 )
                 session.add(org)
@@ -566,6 +568,8 @@ class Orm:
                     org.website = website
                 if ror_id is not None:
                     org.ror_id = ror_id
+                if hidden_public_sections is not None:
+                    org.hidden_public_sections = list(hidden_public_sections)
 
             try:
                 await session.commit()
@@ -1473,6 +1477,7 @@ class Orm:
         head_employee_id: Optional[int] = None,
         equipment_ids: Optional[List[int]] = None,
         task_solution_ids: Optional[List[int]] = None,
+        hidden_public_sections: Optional[List[str]] = None,
     ) -> models.OrganizationLaboratory:
         # Basic tier limit: up to N standalone labs (organization_id is None)
         if organization_id is None and creator_user_id is not None:
@@ -1493,6 +1498,7 @@ class Orm:
                 description=description,
                 activities=activities,
                 image_urls=image_urls or [],
+                hidden_public_sections=list(hidden_public_sections or []),
             )
             session.add(lab)
             await session.flush()
@@ -1577,6 +1583,7 @@ class Orm:
         head_employee_id: Optional[int] = None,
         equipment_ids: Optional[List[int]] = None,
         task_solution_ids: Optional[List[int]] = None,
+        hidden_public_sections: Optional[List[str]] = None,
     ) -> Optional[models.OrganizationLaboratory]:
         async with async_session_factory() as session:
             stmt = (
@@ -1599,6 +1606,8 @@ class Orm:
                 lab.activities = activities
             if image_urls is not None:
                 lab.image_urls = image_urls
+            if hidden_public_sections is not None:
+                lab.hidden_public_sections = list(hidden_public_sections)
             if employee_ids is not None or head_employee_id is not None:
                 eids = list(employee_ids) if employee_ids is not None else [e.id for e in lab.employees]
                 if head_employee_id is not None:
@@ -1716,6 +1725,7 @@ class Orm:
         head_employee_id: Optional[int] = None,
         equipment_ids: Optional[List[int]] = None,
         task_solution_ids: Optional[List[int]] = None,
+        hidden_public_sections: Optional[List[str]] = None,
     ) -> Optional[models.OrganizationLaboratory]:
         async with async_session_factory() as session:
             stmt = (
@@ -1738,6 +1748,8 @@ class Orm:
                 lab.activities = activities
             if image_urls is not None:
                 lab.image_urls = image_urls
+            if hidden_public_sections is not None:
+                lab.hidden_public_sections = list(hidden_public_sections)
             if employee_ids is not None or head_employee_id is not None:
                 eids = list(employee_ids) if employee_ids is not None else [e.id for e in lab.employees]
                 if head_employee_id is not None:
@@ -5136,6 +5148,7 @@ class Orm:
         website: Optional[str] = None,
         ror_id: Optional[str] = None,
         is_published: Optional[bool] = None,
+        hidden_public_sections: Optional[List[str]] = None,
     ) -> Optional[models.Organization]:
         """Update organization by id (admin, no ownership check)."""
         async with async_session_factory() as session:
@@ -5156,6 +5169,8 @@ class Orm:
                 org.ror_id = ror_id
             if is_published is not None:
                 org.is_published = bool(is_published)
+            if hidden_public_sections is not None:
+                org.hidden_public_sections = list(hidden_public_sections)
             try:
                 await session.commit()
             except SQLAlchemyError:
@@ -5219,6 +5234,7 @@ class Orm:
         head_employee_id: Optional[int] = None,
         equipment_ids: Optional[List[int]] = None,
         task_solution_ids: Optional[List[int]] = None,
+        hidden_public_sections: Optional[List[str]] = None,
     ) -> Optional[models.OrganizationLaboratory]:
         """Update laboratory by id (admin, no ownership check)."""
         async with async_session_factory() as session:
@@ -5241,6 +5257,8 @@ class Orm:
                 lab.activities = activities
             if image_urls is not None:
                 lab.image_urls = image_urls
+            if hidden_public_sections is not None:
+                lab.hidden_public_sections = list(hidden_public_sections)
             if is_published is not None:
                 lab.is_published = bool(is_published)
             if employee_ids is not None or head_employee_id is not None:

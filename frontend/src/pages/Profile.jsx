@@ -22,6 +22,7 @@ const EMPTY_ORG_PROFILE = {
   description: "",
   address: "",
   website: "",
+  hidden_public_sections: [],
 };
 
 export default function Profile() {
@@ -57,6 +58,7 @@ export default function Profile() {
     head_employee_id: null,
     equipment_ids: [],
     task_solution_ids: [],
+    hidden_public_sections: [],
   });
   const [editingEquipmentId, setEditingEquipmentId] = useState(null);
   const [editingLabId, setEditingLabId] = useState(null);
@@ -667,6 +669,7 @@ export default function Profile() {
         description: orgProfile?.description || "",
         address: orgProfile?.address || "",
         website: orgProfile?.website || "",
+        hidden_public_sections: orgProfile?.hidden_public_sections || [],
       };
       const data = await apiRequest("/profile/organization", {
         method: "PUT",
@@ -938,6 +941,7 @@ export default function Profile() {
         head_employee_id: lab.head_employee_id ?? lab.head_employee?.id ?? null,
         equipment_ids: (lab.equipment || []).map((e) => e.id),
         task_solution_ids: (lab.task_solutions || []).map((t) => t.id),
+        hidden_public_sections: lab.hidden_public_sections || [],
       });
     } catch (e) {
       if (pendingLabEditIdRef.current === id) {
@@ -1126,6 +1130,7 @@ export default function Profile() {
         head_employee_id: labEdit.head_employee_id != null ? labEdit.head_employee_id : null,
         equipment_ids: labEdit.equipment_ids || [],
         task_solution_ids: labEdit.task_solution_ids || [],
+        hidden_public_sections: labEdit.hidden_public_sections || [],
       };
       const updated = await apiRequest(`/profile/organization/laboratories/${editingLabId}`, {
         method: "PUT",
@@ -1433,6 +1438,7 @@ export default function Profile() {
         head_employee_id: labDraft.head_employee_id != null ? labDraft.head_employee_id : null,
         equipment_ids: labDraft.equipment_ids || [],
         task_solution_ids: labDraft.task_solution_ids || [],
+        hidden_public_sections: labDraft.hidden_public_sections || [],
       };
       if (!payload.name) {
         setError("Укажите название лаборатории.");
@@ -1453,6 +1459,7 @@ export default function Profile() {
         head_employee_id: null,
         equipment_ids: [],
         task_solution_ids: [],
+        hidden_public_sections: [],
       });
       showToast("Лаборатория создана");
       return true;

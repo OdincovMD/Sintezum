@@ -15,7 +15,9 @@ from sqlalchemy import (
     Index,
     func,
     Boolean,
+    text,
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
 from app.database import BaseModel
@@ -42,6 +44,12 @@ class Organization(BaseModel):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     first_created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=True)
     is_published = Column(Boolean, nullable=False, server_default="false")
+    hidden_public_sections = Column(
+        JSONB,
+        nullable=False,
+        default=list,
+        server_default=text("'[]'::jsonb"),
+    )
     creator_user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
 
     creator = relationship("User", foreign_keys=[creator_user_id])
@@ -187,6 +195,12 @@ class OrganizationLaboratory(BaseModel):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     first_created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=True)
     is_published = Column(Boolean, nullable=False, server_default="false")
+    hidden_public_sections = Column(
+        JSONB,
+        nullable=False,
+        default=list,
+        server_default=text("'[]'::jsonb"),
+    )
 
     organization = relationship("Organization", back_populates="laboratories")
     creator = relationship("User")

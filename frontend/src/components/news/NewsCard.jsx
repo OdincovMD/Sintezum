@@ -3,6 +3,7 @@ import { ArrowUpRight, Building2, CalendarDays, FlaskConical } from "lucide-reac
 import { Link } from "react-router-dom";
 import { DEFAULT_PLACEHOLDER_IMAGE } from "../../constants";
 import NewsPeople from "./NewsPeople";
+import NewEntityBadge from "../NewEntityBadge";
 
 export function formatNewsDate(value) {
   if (!value) return "";
@@ -37,9 +38,12 @@ export default function NewsCard({ item, compact = false }) {
           <OwnerLabel owner={item.owner} />
           <span className="news-card__date"><CalendarDays size={14} aria-hidden />{formatNewsDate(item.published_at)}</span>
         </div>
-        <h2 className="news-card__title">
-          <Link to={`/news/${item.public_id}`}>{item.title}</Link>
-        </h2>
+        <div className="entity-title-with-badge">
+          <h2 className="news-card__title">
+            <Link to={`/news/${item.public_id}`}>{item.title}</Link>
+          </h2>
+          <NewEntityBadge createdAt={item.published_at} />
+        </div>
         {!compact && item.excerpt && <p className="news-card__excerpt">{item.excerpt}</p>}
         <NewsPeople employees={item.employees} compact />
         <Link className="news-card__more" to={`/news/${item.public_id}`}>

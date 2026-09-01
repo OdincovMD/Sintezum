@@ -34,6 +34,7 @@ def _org_to_read(org):
         "website": org.website,
         "ror_id": org.ror_id,
         "is_published": getattr(org, "is_published", False),
+        "hidden_public_sections": getattr(org, "hidden_public_sections", None) or [],
         "created_at": org.created_at,
     }
 

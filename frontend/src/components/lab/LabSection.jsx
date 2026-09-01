@@ -1,6 +1,17 @@
 import React from "react";
 
-export default function LabSection({ title, badge, emptyMessage, empty, children, icon }) {
+export default function LabSection({
+  title,
+  badge,
+  emptyMessage,
+  empty,
+  hidden = false,
+  hideWhenEmpty = false,
+  children,
+  icon,
+}) {
+  if (hidden || (hideWhenEmpty && empty)) return null;
+
   return (
     <div className="org-detail-section">
       <h2 className="org-detail-section__title">

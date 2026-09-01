@@ -68,6 +68,7 @@ async def create_org_laboratory(
             head_employee_id=payload.head_employee_id,
             equipment_ids=payload.equipment_ids,
             task_solution_ids=payload.task_solution_ids,
+            hidden_public_sections=payload.hidden_public_sections,
         )
         logger.info("Laboratory created: id=%s org_id=%s", lab.id, org.id)
         try:
@@ -87,6 +88,7 @@ async def create_org_laboratory(
             head_employee_id=payload.head_employee_id,
             equipment_ids=payload.equipment_ids,
             task_solution_ids=payload.task_solution_ids,
+            hidden_public_sections=payload.hidden_public_sections,
         )
         logger.info("Laboratory created: id=%s creator_user_id=%s", lab.id, current_user.id)
         if lab.organization_id:
@@ -120,6 +122,7 @@ async def update_org_laboratory(
             head_employee_id=payload.head_employee_id,
             equipment_ids=payload.equipment_ids,
             task_solution_ids=payload.task_solution_ids,
+            hidden_public_sections=payload.hidden_public_sections,
         )
     elif is_lab_representative(current_user):
         lab = await Orm.update_laboratory_for_creator(
@@ -133,6 +136,7 @@ async def update_org_laboratory(
             head_employee_id=payload.head_employee_id,
             equipment_ids=payload.equipment_ids,
             task_solution_ids=payload.task_solution_ids,
+            hidden_public_sections=payload.hidden_public_sections,
         )
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Organization profile not found")

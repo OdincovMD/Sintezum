@@ -154,6 +154,7 @@ async def get_lab_details(public_id: str):
         address=org.address,
         website=org.website,
         created_at=org.created_at,
+        hidden_public_sections=org.hidden_public_sections or [],
         equipment=equipment,
         laboratories=laboratories,
         employees=employees,

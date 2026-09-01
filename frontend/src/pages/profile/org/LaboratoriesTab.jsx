@@ -23,6 +23,8 @@ import { Input } from "../../../components/ui/Input";
 import { Badge } from "../../../components/ui/Badge";
 import NewEntityBadge from "../../../components/NewEntityBadge";
 import { useEditOverlayScrollLock } from "../../../hooks";
+import PublicSectionVisibility from "../../../components/PublicSectionVisibility";
+import { LABORATORY_PUBLIC_SECTIONS } from "../../../utils/publicSections";
 
 /**
  * Общий модуль «Лаборатории»: создание/редактирование лабораторий, привязка оборудования, задач, сотрудников.
@@ -339,6 +341,17 @@ export default function LaboratoriesTab({
 
               <div className="profile-form-group">
                 <div className="profile-form-group-title">
+                  <Eye size={16} /> Разделы публичной страницы
+                </div>
+                <PublicSectionVisibility
+                  sections={LABORATORY_PUBLIC_SECTIONS}
+                  hiddenSections={labEdit.hidden_public_sections}
+                  onChange={(value) => handleLabEditChange("hidden_public_sections", value)}
+                />
+              </div>
+
+              <div className="profile-form-group">
+                <div className="profile-form-group-title">
                   <ImageIcon size={16} /> Медиа
                 </div>
                 <input
@@ -481,6 +494,17 @@ export default function LaboratoriesTab({
                   ))}
                 </div>
               </div>
+            </div>
+
+            <div className="profile-form-group">
+              <div className="profile-form-group-title">
+                <Eye size={16} /> Разделы публичной страницы
+              </div>
+              <PublicSectionVisibility
+                sections={LABORATORY_PUBLIC_SECTIONS}
+                hiddenSections={labDraft.hidden_public_sections}
+                onChange={(value) => handleLabDraft("hidden_public_sections", value)}
+              />
             </div>
 
             <div className="profile-form-group">

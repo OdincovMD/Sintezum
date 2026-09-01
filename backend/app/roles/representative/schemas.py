@@ -5,9 +5,9 @@ Pydantic-схемы для роли представителя (организа
 """
 
 from datetime import datetime
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.common import ORMModel
 
@@ -15,6 +15,27 @@ from app.common import ORMModel
 # =========================
 #       ORGANIZATIONS
 # =========================
+
+OrganizationPublicSection = Literal[
+    "news",
+    "laboratories",
+    "equipment",
+    "employees",
+    "task_solutions",
+    "queries",
+    "vacancies",
+]
+
+LaboratoryPublicSection = Literal[
+    "photos",
+    "news",
+    "employees",
+    "equipment",
+    "task_solutions",
+    "queries",
+    "vacancies",
+    "documents",
+]
 
 class OrganizationBase(BaseModel):
     name: str
@@ -34,6 +55,7 @@ class OrganizationRead(ORMModel, OrganizationBase):
     public_id: Optional[str] = None
     ror_id: Optional[str] = None
     created_at: datetime
+    hidden_public_sections: List[OrganizationPublicSection] = Field(default_factory=list)
 
 
 class OrganizationListResponse(BaseModel):
@@ -53,6 +75,7 @@ class OrganizationUpdate(BaseModel):
     website: Optional[str] = None
     ror_id: Optional[str] = None
     is_published: Optional[bool] = None
+    hidden_public_sections: Optional[List[OrganizationPublicSection]] = None
 
 
 class StorageUploadResponse(BaseModel):
@@ -183,6 +206,7 @@ class OrganizationLaboratoryCreate(OrganizationLaboratoryBase):
     head_employee_id: Optional[int] = None
     equipment_ids: Optional[List[int]] = None
     task_solution_ids: Optional[List[int]] = None
+    hidden_public_sections: List[LaboratoryPublicSection] = Field(default_factory=list)
 
 
 class EmployeeShort(ORMModel):
@@ -212,6 +236,7 @@ class OrganizationLaboratoryRead(ORMModel, OrganizationLaboratoryBase):
     equipment: Optional[List[OrganizationEquipmentRead]] = None
     organization: Optional["OrganizationShort"] = None
     task_solutions: Optional[List["OrganizationTaskSolutionRead"]] = None
+    hidden_public_sections: List[LaboratoryPublicSection] = Field(default_factory=list)
 
 
 class OrganizationLaboratoryShort(ORMModel, OrganizationLaboratoryBase):
@@ -256,6 +281,7 @@ class LaboratoryDetails(ORMModel, OrganizationLaboratoryBase):
     queries: List["OrganizationQueryRead"] = []
     vacancies: List[VacancyOrganizationRead] = []
     contact_email: Optional[str] = None
+    hidden_public_sections: List[LaboratoryPublicSection] = Field(default_factory=list)
 
 
 class OrganizationLaboratoryUpdate(BaseModel):
@@ -268,6 +294,7 @@ class OrganizationLaboratoryUpdate(BaseModel):
     is_published: Optional[bool] = None
     equipment_ids: Optional[List[int]] = None
     task_solution_ids: Optional[List[int]] = None
+    hidden_public_sections: Optional[List[LaboratoryPublicSection]] = None
 
 
 # =========================

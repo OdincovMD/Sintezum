@@ -37,6 +37,7 @@ import EquipmentModal from "./profile/EquipmentModal";
 import EmptySearchFallback from "../components/EmptySearchFallback";
 import NewEntityBadge from "../components/NewEntityBadge";
 import { NewsSection } from "../components/news";
+import { isPublicSectionVisible } from "../utils/publicSections";
 
 const LABORATORIES_PAGE_SIZE = 20;
 
@@ -529,7 +530,7 @@ export default function Laboratories() {
                 />
                 <div className="detail-page__layout">
                   <div className="detail-page__main">
-                    {listImages.length > 0 && (
+                    {listImages.length > 0 && isPublicSectionVisible(details, "photos") && (
                       <LabSection
                         title="Фотографии"
                         icon={<Image size={20} />}
@@ -542,13 +543,17 @@ export default function Laboratories() {
                         />
                       </LabSection>
                     )}
-                    <NewsSection laboratoryId={details.id} title="Новости лаборатории" />
+                    {isPublicSectionVisible(details, "news") && (
+                      <NewsSection laboratoryId={details.id} title="Новости лаборатории" />
+                    )}
                     <LabSection
                       title="Сотрудники"
                       icon={<Users size={20} />}
                       badge={details.employees.length}
                       emptyMessage="Сотрудники не добавлены."
                       empty={details.employees.length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(details, "employees")}
                     >
                       <div className="org-detail-grid org-detail-grid--employees">
                         {details.employees.map((employee) => (
@@ -569,6 +574,8 @@ export default function Laboratories() {
                       badge={details.equipment.length}
                       emptyMessage="Оборудование не добавлено."
                       empty={details.equipment.length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(details, "equipment")}
                     >
                       <div className="org-detail-grid">
                     {details.equipment.map((item) => {
@@ -618,6 +625,8 @@ export default function Laboratories() {
                       badge={(details.task_solutions || []).length}
                       emptyMessage="Решённые задачи не добавлены."
                       empty={(details.task_solutions || []).length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(details, "task_solutions")}
                     >
                       <div className="org-detail-grid">
                     {(details.task_solutions || []).map((task) => (
@@ -668,6 +677,8 @@ export default function Laboratories() {
                       badge={(details.queries || []).length}
                       emptyMessage="Запросы не добавлены."
                       empty={(details.queries || []).length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(details, "queries")}
                     >
                       <div className="org-detail-grid">
                     {(details.queries || []).map((query) => (
@@ -734,6 +745,8 @@ export default function Laboratories() {
                       badge={(details.vacancies || []).length}
                       emptyMessage="Вакансии не добавлены."
                       empty={(details.vacancies || []).length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(details, "vacancies")}
                     >
                       <div className="org-detail-grid">
                     {(details.vacancies || []).map((vacancy) => (
@@ -774,7 +787,7 @@ export default function Laboratories() {
                     ))}
                       </div>
                     </LabSection>
-                    {splitMedia(details.image_urls).docs.length > 0 && (
+                    {splitMedia(details.image_urls).docs.length > 0 && isPublicSectionVisible(details, "documents") && (
                       <LabSection title="Документы" icon={<FileText size={20} />} empty={false}>
                         <div className="org-detail-card__files org-detail-card__files--block">
                           {splitMedia(details.image_urls).docs.map((url, i) => (

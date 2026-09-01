@@ -37,6 +37,7 @@ import GalleryModal from "./profile/GalleryModal";
 import EmptySearchFallback from "../components/EmptySearchFallback";
 import NewEntityBadge from "../components/NewEntityBadge";
 import { NewsSection } from "../components/news";
+import { isPublicSectionVisible } from "../utils/publicSections";
 
 const ORGANIZATIONS_PAGE_SIZE = 20;
 
@@ -478,16 +479,20 @@ export default function Organizations() {
                 <OrganizationDetailHero details={detailsMap[selectedId]} />
                 <div className="detail-page__layout">
                   <div className="detail-page__main">
-                    <NewsSection
-                      organizationId={detailsMap[selectedId].id}
-                      title="Новости организации"
-                    />
+                    {isPublicSectionVisible(detailsMap[selectedId], "news") && (
+                      <NewsSection
+                        organizationId={detailsMap[selectedId].id}
+                        title="Новости организации"
+                      />
+                    )}
                     <OrganizationSection
                       title="Лаборатории"
                       icon={<Beaker size={20} />}
                       badge={detailsMap[selectedId].laboratories.length}
                       emptyMessage="Лаборатории не добавлены."
                       empty={detailsMap[selectedId].laboratories.length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(detailsMap[selectedId], "laboratories")}
                     >
                       <div className="org-detail-grid">
                     {detailsMap[selectedId].laboratories.map((lab) => {
@@ -559,6 +564,8 @@ export default function Organizations() {
                       badge={detailsMap[selectedId].equipment.length}
                       emptyMessage="Оборудование не добавлено."
                       empty={detailsMap[selectedId].equipment.length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(detailsMap[selectedId], "equipment")}
                     >
                       <div className="org-detail-grid">
                     {detailsMap[selectedId].equipment.map((item) => {
@@ -608,6 +615,8 @@ export default function Organizations() {
                       badge={detailsMap[selectedId].employees.length}
                       emptyMessage="Сотрудники не добавлены."
                       empty={detailsMap[selectedId].employees.length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(detailsMap[selectedId], "employees")}
                     >
                       <div className="org-detail-grid org-detail-grid--employees">
                         {detailsMap[selectedId].employees.map((employee) => (
@@ -628,6 +637,8 @@ export default function Organizations() {
                       badge={detailsMap[selectedId].task_solutions.length}
                       emptyMessage="Задачи не добавлены."
                       empty={detailsMap[selectedId].task_solutions.length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(detailsMap[selectedId], "task_solutions")}
                     >
                       <div className="org-detail-grid">
                     {detailsMap[selectedId].task_solutions.map((task) => (
@@ -690,6 +701,8 @@ export default function Organizations() {
                       badge={detailsMap[selectedId].queries.length}
                       emptyMessage="Запросы не добавлены."
                       empty={detailsMap[selectedId].queries.length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(detailsMap[selectedId], "queries")}
                     >
                       <div className="org-detail-grid">
                     {detailsMap[selectedId].queries.map((query) => (
@@ -756,6 +769,8 @@ export default function Organizations() {
                       badge={detailsMap[selectedId].vacancies.length}
                       emptyMessage="Вакансии не добавлены."
                       empty={detailsMap[selectedId].vacancies.length === 0}
+                      hideWhenEmpty
+                      hidden={!isPublicSectionVisible(detailsMap[selectedId], "vacancies")}
                     >
                       <div className="org-detail-grid">
                     {detailsMap[selectedId].vacancies.map((vacancy) => (

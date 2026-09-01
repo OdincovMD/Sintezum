@@ -165,6 +165,8 @@
 
 **Ответ списка:** `{"items": [...], "total": N, "page": P, "size": S}`
 
+Детальный ответ содержит `hidden_public_sections` — список блоков, которые владелец отключил на публичной странице. Возможные значения: `news`, `laboratories`, `equipment`, `employees`, `task_solutions`, `queries`, `vacancies`. Пустые блоки клиент также скрывает автоматически.
+
 ---
 
 ## 6. Лаборатории
@@ -180,6 +182,8 @@
 **Параметры списка:** `q`, `page`, `size`, `organization_id`, `without_org`, `min_employees`, `sort_by`
 
 **Ответ списка:** `{"items": [...], "total": N, "page": P, "size": S}`
+
+Детальный ответ содержит `hidden_public_sections`. Возможные значения: `photos`, `news`, `employees`, `equipment`, `task_solutions`, `queries`, `vacancies`, `documents`.
 
 ---
 

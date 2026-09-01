@@ -208,6 +208,7 @@ async def upsert_org_profile(
             address=payload.address,
             website=payload.website,
             ror_id=payload.ror_id,
+            hidden_public_sections=payload.hidden_public_sections,
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
