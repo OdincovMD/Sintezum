@@ -36,6 +36,7 @@ import { EmployeeCard } from "../components/EmployeeCard";
 import EquipmentModal from "./profile/EquipmentModal";
 import EmptySearchFallback from "../components/EmptySearchFallback";
 import NewEntityBadge from "../components/NewEntityBadge";
+import { NewsSection } from "../components/news";
 
 const LABORATORIES_PAGE_SIZE = 20;
 
@@ -541,6 +542,7 @@ export default function Laboratories() {
                         />
                       </LabSection>
                     )}
+                    <NewsSection laboratoryId={details.id} title="Новости лаборатории" />
                     <LabSection
                       title="Сотрудники"
                       icon={<Users size={20} />}

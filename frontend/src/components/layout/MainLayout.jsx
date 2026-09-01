@@ -141,6 +141,9 @@ export default function MainLayout() {
                   Админ
                 </NavLink>
               )}
+              <NavLink className={navLinkClass} to="/news" end={false}>
+                Новости
+              </NavLink>
               <NavLink className={navLinkClass} to="/" end={true}>
                 Главная
               </NavLink>
@@ -221,6 +224,14 @@ export default function MainLayout() {
                 onClick={closeMenu}
               >
                 Главная
+              </NavLink>
+              <NavLink
+                className={navLinkClass}
+                to="/news"
+                end={false}
+                onClick={closeMenu}
+              >
+                Новости
               </NavLink>
               <NavLink
                 className={navLinkClass}

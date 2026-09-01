@@ -5,6 +5,7 @@ Direct upload endpoints for S3-compatible storage.
 import asyncio
 import logging
 import os
+import secrets
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
 
@@ -16,7 +17,7 @@ from app.storage.s3 import upload_bytes
 
 router = APIRouter(prefix="/storage", tags=["storage"])
 
-ALLOWED_CATEGORIES = {"equipment", "laboratory", "employee", "organization", "researcher", "student", "user", "feedback"}
+ALLOWED_CATEGORIES = {"equipment", "laboratory", "employee", "organization", "researcher", "student", "user", "feedback", "news"}
 ALLOWED_MIME_PREFIXES = ("image/",)
 ALLOWED_MIME_TYPES = {
     "application/pdf",
@@ -151,11 +152,14 @@ async def upload_image(
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     try:
+        upload_filename = file.filename or "image"
+        if category == "news":
+            upload_filename = f"{secrets.token_hex(8)}_{upload_filename}"
         public_url, key = await asyncio.to_thread(
             upload_bytes,
             category,
             current_user.id,
-            file.filename or "image",
+            upload_filename,
             file.content_type or "application/octet-stream",
             data,
         )

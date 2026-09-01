@@ -12,6 +12,7 @@ import JoinRequestsIncomingTab from "./JoinRequestsIncomingTab";
 import VacancyResponsesIncomingTab from "./VacancyResponsesIncomingTab";
 import MyJoinRequestsSection from "./MyJoinRequestsSection";
 import EmployerDashboard from "./EmployerDashboard";
+import NewsTab from "./org/NewsTab";
 
 export default function OrganizationProfileSection({
   title = "Профиль организации",
@@ -234,6 +235,10 @@ export default function OrganizationProfileSection({
           saving={saving}
           onFileInputRefsReady={onOrgEquipmentFileInputRefsReady}
         />
+      )}
+
+      {orgTab === "news" && (
+        <NewsTab roleKey={roleKey} organization={orgProfile} laboratories={orgLabs} />
       )}
 
       {orgTab === "staff" && (

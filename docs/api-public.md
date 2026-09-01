@@ -385,7 +385,7 @@ CRUD для организаций и лабораторий (представи
     {
       "event_type": "page_view" | "page_leave" | "button_click",
       "session_id": "строка",
-      "entity_type": "vacancy" | "organization" | "laboratory" | "query" | "profile" | "home" | "list",
+      "entity_type": "vacancy" | "organization" | "laboratory" | "query" | "news" | "profile" | "home" | "list",
       "entity_id": "опционально",
       "payload": {}
     }
@@ -418,7 +418,7 @@ CRUD для организаций и лабораторий (представи
 | POST | `/storage/upload` | ✓ | Загрузка файла (multipart/form-data) |
 
 **Формат:** `category` (form), `file` (form).  
-**category:** equipment, laboratory, employee, organization, researcher, student, user.
+**category:** equipment, laboratory, employee, organization, researcher, student, user, feedback, news.
 
 **Допустимые типы:** изображения, PDF, DOC/DOCX, XLS/XLSX, PPT/PPTX, TXT, CSV. Макс. 10 MB.
 
@@ -433,6 +433,25 @@ CRUD для организаций и лабораторий (представи
 | Метод | Endpoint | Auth | Описание |
 |-------|----------|------|----------|
 | GET | `/stats/` | — | Счётчики платформы (лаборатории, вакансии, организации и т.п.) |
+
+---
+
+## 15. Новости
+
+| Метод | Endpoint | Auth | Описание |
+|-------|----------|------|----------|
+| GET | `/news` | — | Все опубликованные новости; фильтры `organization_id` или `laboratory_id` |
+| GET | `/news/public/{public_id}` | — | Детальная публикация |
+| GET | `/profile/news` | ✓ | Новости доступных пользователю организации и лабораторий |
+| GET | `/profile/news/eligible-employees` | ✓ | Сотрудники, доступные для привязки к выбранному источнику |
+| POST | `/profile/news` | ✓ | Создать черновик |
+| PUT | `/profile/news/{id}` | ✓ | Изменить собственную новость |
+| PUT | `/profile/news/{id}/publish` | ✓ | Опубликовать или вернуть в черновик |
+| DELETE | `/profile/news/{id}` | ✓ | Удалить собственную новость |
+
+`POST /profile/news` и `PUT /profile/news/{id}` принимают необязательный массив `employee_ids` (до 20 уникальных ID). Для новости организации разрешены только её сотрудники, для новости лаборатории — только сотрудники этой лаборатории. Публичные и управляющие ответы возвращают краткие данные выбранных сотрудников в поле `employees`.
+
+Публичный список поддерживает `page`, `size` и сортируется по исходной дате публикации. Черновики, заблокированные новости и публикации скрытых владельцев не возвращаются.
 
 ---
 

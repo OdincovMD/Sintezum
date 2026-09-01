@@ -49,6 +49,9 @@ export function getEntityFromPath(pathname) {
   if (parts[0] === "vacancies") {
     return { entity_type: "vacancy", entity_id: parts[1] || null };
   }
+  if (parts[0] === "news") {
+    return { entity_type: "news", entity_id: parts[1] || null };
+  }
   if (parts[0] === "profile") {
     return { entity_type: "profile", entity_id: null };
   }

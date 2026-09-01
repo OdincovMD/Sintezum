@@ -17,6 +17,7 @@ import {
   Inbox,
   Loader2,
   MessageSquareWarning,
+  Newspaper,
 } from "lucide-react";
 import { apiRequest } from "../../api/client";
 import { useAuth } from "../../auth/AuthContext";
@@ -24,11 +25,12 @@ import { Badge, Button, Card, Input } from "../../components/ui";
 import AdminMediaField from "./shared/AdminMediaField";
 import { EntityCheckboxList, EntitySelect } from "./shared/EntitySelect";
 import { useEditOverlayScrollLock } from "../../hooks";
+import NewsAdminTab from "./NewsAdminTab";
 
 const TAB_GROUPS = [
   { label: null, tabs: [{ id: "dashboard", label: "Дашборд", icon: Layout }] },
   { label: "Организации", tabs: [{ id: "organizations", label: "Организации", icon: Building2 }, { id: "laboratories", label: "Лаборатории", icon: Beaker }] },
-  { label: "Контент", tabs: [{ id: "vacancies", label: "Вакансии", icon: Link2 }, { id: "queries", label: "Запросы", icon: BookOpen }, { id: "equipment", label: "Оборудование", icon: Wrench }, { id: "tasks", label: "Решённые задачи", icon: TrendingUp }, { id: "employees", label: "Сотрудники", icon: User }] },
+  { label: "Контент", tabs: [{ id: "news", label: "Новости", icon: Newspaper }, { id: "vacancies", label: "Вакансии", icon: Link2 }, { id: "queries", label: "Запросы", icon: BookOpen }, { id: "equipment", label: "Оборудование", icon: Wrench }, { id: "tasks", label: "Решённые задачи", icon: TrendingUp }, { id: "employees", label: "Сотрудники", icon: User }] },
   { label: "Участники", tabs: [{ id: "students", label: "Студенты", icon: GraduationCap }, { id: "researchers", label: "Исследователи", icon: Beaker }, { id: "users", label: "Пользователи", icon: Users }] },
   { label: "Подписки", tabs: [{ id: "subscriptions", label: "Подписки", icon: Coins }] },
   { label: "Модерация", tabs: [{ id: "join-requests", label: "Заявки", icon: HelpCircle }, { id: "vacancy-responses", label: "Отклики", icon: Mail }, { id: "feedback", label: "Обратная связь", icon: MessageSquareWarning }] },
@@ -180,7 +182,7 @@ export default function Admin() {
 
   const fetchList = useCallback(async () => {
     if (auth?.user?.role_name !== "platform_admin") return;
-    if (["subscriptions", "dashboard", "users", "join-requests", "vacancy-responses", "feedback"].includes(activeTab)) return;
+    if (["subscriptions", "dashboard", "users", "join-requests", "vacancy-responses", "feedback", "news"].includes(activeTab)) return;
     setLoading(true);
     setError(null);
     try {
@@ -1477,6 +1479,8 @@ export default function Admin() {
           </div>
         )}
 
+        {activeTab === "news" && <NewsAdminTab />}
+
         {activeTab === "subscriptions" && (
           <div className="admin-page__subscriptions">
             <div className="admin-page__subs-tabs">
@@ -1908,7 +1912,7 @@ export default function Admin() {
           </div>
         )}
 
-        {!["dashboard", "subscriptions", "users", "join-requests", "vacancy-responses"].includes(activeTab) && (
+        {!["dashboard", "subscriptions", "users", "join-requests", "vacancy-responses", "news"].includes(activeTab) && (
           <Card variant="solid" padding="lg" className="profile-section-card admin-page__card">
             <h2 className="profile-section-card__title">
               {TABS.find((t) => t.id === activeTab)?.label ?? activeTab}

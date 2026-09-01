@@ -15,7 +15,7 @@ from app.core.models import User
 router = APIRouter(prefix="/analytics", tags=["analytics"])
 
 ALLOWED_EVENT_TYPES = {"page_view", "page_leave", "button_click"}
-ALLOWED_ENTITY_TYPES = {"vacancy", "organization", "laboratory", "query", "profile", "home", "list"}
+ALLOWED_ENTITY_TYPES = {"vacancy", "organization", "laboratory", "query", "news", "profile", "home", "list"}
 MAX_EVENTS_PER_REQUEST = 50
 
 

@@ -36,6 +36,7 @@ import EquipmentModal from "./profile/EquipmentModal";
 import GalleryModal from "./profile/GalleryModal";
 import EmptySearchFallback from "../components/EmptySearchFallback";
 import NewEntityBadge from "../components/NewEntityBadge";
+import { NewsSection } from "../components/news";
 
 const ORGANIZATIONS_PAGE_SIZE = 20;
 
@@ -477,6 +478,10 @@ export default function Organizations() {
                 <OrganizationDetailHero details={detailsMap[selectedId]} />
                 <div className="detail-page__layout">
                   <div className="detail-page__main">
+                    <NewsSection
+                      organizationId={detailsMap[selectedId].id}
+                      title="Новости организации"
+                    />
                     <OrganizationSection
                       title="Лаборатории"
                       icon={<Beaker size={20} />}

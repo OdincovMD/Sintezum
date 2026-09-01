@@ -22,6 +22,7 @@ const Applicants = lazy(() => import("./Applicants"));
 const Admin = lazy(() => import("./admin/Admin"));
 const Privacy = lazy(() => import("./Privacy"));
 const About = lazy(() => import("./About"));
+const News = lazy(() => import("./News"));
 const NotFound = lazy(() => import("./NotFound"));
 
 export default function App() {
@@ -97,6 +98,8 @@ export default function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/about" element={<About />} />
+            <Route path="/news/:publicId" element={<News />} />
+            <Route path="/news" element={<News />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
