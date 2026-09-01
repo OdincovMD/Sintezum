@@ -29,7 +29,7 @@ function renderNode(node, key) {
   if (node.type === "image") {
     return (
       <figure className="news-content__image" key={key}>
-        <img src={node.attrs?.src} alt={node.attrs?.alt || "Иллюстрация новости"} loading="lazy" />
+        <img src={node.attrs?.src} alt={node.attrs?.alt || "Иллюстрация новости"} loading="eager" decoding="async" />
       </figure>
     );
   }

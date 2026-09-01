@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Edit3, Eye, FilePlus2, LockKeyhole, Newspaper, Trash2, UnlockKeyhole, Users } from "lucide-react";
 import { apiRequest } from "../../api/client";
-import { useEditOverlayScrollLock } from "../../hooks";
 import { Badge, Button } from "../ui";
 import NewsEditorForm from "./NewsEditorForm";
 import { formatNewsDate } from "./NewsCard";
@@ -22,7 +22,33 @@ export default function NewsManager({ endpoint, targets, admin = false }) {
   const [editorOpen, setEditorOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("");
   const [scopeFilter, setScopeFilter] = useState("");
-  useEditOverlayScrollLock(editorOpen);
+  const portalTarget = typeof document !== "undefined" ? document.body : null;
+
+  useEffect(() => {
+    if (!editorOpen) return undefined;
+    const scrollY = window.scrollY;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const previous = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      top: document.body.style.top,
+      left: document.body.style.left,
+      right: document.body.style.right,
+      width: document.body.style.width,
+      paddingRight: document.body.style.paddingRight,
+    };
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+    return () => {
+      Object.assign(document.body.style, previous);
+      window.scrollTo(0, scrollY);
+    };
+  }, [editorOpen]);
 
   useEffect(() => {
     if (!editorOpen) return undefined;
@@ -67,7 +93,7 @@ export default function NewsManager({ endpoint, targets, admin = false }) {
       if (editorItem) {
         await apiRequest(`${endpoint}/${editorItem.id}`, {
           method: "PUT",
-          body: JSON.stringify({ title: payload.title, content: payload.content, cover_url: payload.cover_url, employee_ids: payload.employee_ids }),
+          body: JSON.stringify(payload),
         });
       } else {
         await apiRequest(endpoint, { method: "POST", body: JSON.stringify(payload) });
@@ -112,11 +138,10 @@ export default function NewsManager({ endpoint, targets, admin = false }) {
 
   return (
     <div className="news-manager">
-      <div className="news-manager__intro">
+      <div className="news-manager__header profile-section-header">
         <div>
-          <span className="news-manager__eyebrow"><Newspaper size={16} /> Контент</span>
-          <h3>{admin ? "Новости платформы" : "Новости"}</h3>
-          <p>{admin ? "Создавайте редакционные материалы и управляйте публикациями участников." : "Рассказывайте о событиях организации и лабораторий."}</p>
+          <h2 className="profile-section-card__title">{admin ? "Новости платформы" : "Новости"}</h2>
+          <p className="profile-section-desc">{admin ? "Создавайте редакционные материалы и управляйте публикациями участников." : "Рассказывайте о событиях организации и лабораторий."}</p>
         </div>
         <Button onClick={openCreate} disabled={targets.length === 0}><FilePlus2 size={17} /> Новая новость</Button>
       </div>
@@ -175,12 +200,13 @@ export default function NewsManager({ endpoint, targets, admin = false }) {
         <div className="news-manager__pagination"><Button variant="ghost" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>Назад</Button><span>{page} / {Math.ceil(data.total / 20)}</span><Button variant="ghost" disabled={page * 20 >= data.total} onClick={() => setPage((p) => p + 1)}>Вперёд</Button></div>
       )}
 
-      {editorOpen && (
+      {editorOpen && portalTarget && createPortal(
         <div className="news-editor-overlay" role="dialog" aria-modal="true" aria-label="Редактор новости" onMouseDown={(e) => e.target === e.currentTarget && !saving && setEditorOpen(false)}>
           <div className="news-editor-overlay__panel">
             <NewsEditorForm item={editorItem} targets={targets} employeeEndpoint={endpoint} saving={saving} onSave={save} onCancel={() => !saving && setEditorOpen(false)} />
           </div>
-        </div>
+        </div>,
+        portalTarget
       )}
     </div>
   );

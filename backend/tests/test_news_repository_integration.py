@@ -41,7 +41,12 @@ class NewsRepositoryIntegrationTests(unittest.IsolatedAsyncioTestCase):
                 organization_id=organization.id,
                 is_published=True,
             )
-            session.add(lab)
+            second_lab = models.OrganizationLaboratory(
+                name="Вторая лаборатория",
+                organization_id=organization.id,
+                is_published=True,
+            )
+            session.add_all([lab, second_lab])
             await session.flush()
             employee = models.Employee(
                 organization_id=organization.id,
@@ -63,6 +68,12 @@ class NewsRepositoryIntegrationTests(unittest.IsolatedAsyncioTestCase):
                     laboratory_id=lab.id,
                 )
             )
+            await session.execute(
+                models.employee_laboratories.insert().values(
+                    employee_id=employee.id,
+                    laboratory_id=second_lab.id,
+                )
+            )
             lab_admin = models.User(
                 mail="news-admin@example.test",
                 role_id=lab_admin_role.id,
@@ -76,6 +87,7 @@ class NewsRepositoryIntegrationTests(unittest.IsolatedAsyncioTestCase):
             await session.commit()
             self.organization_id = organization.id
             self.laboratory_id = lab.id
+            self.second_laboratory_id = second_lab.id
             self.employee_id = employee.id
             self.foreign_employee_id = foreign_employee.id
             self.lab_admin = SimpleNamespace(
@@ -201,6 +213,45 @@ class NewsRepositoryIntegrationTests(unittest.IsolatedAsyncioTestCase):
                     content=self.content,
                 ),
             )
+
+    async def test_changes_laboratory_and_persists_media(self):
+        photo_url = "http://localhost:9000/labportal/news/1/photo.jpg"
+        file_url = "http://localhost:9000/labportal/news/1/report.pdf"
+        created = await NewsRepository.create(
+            self.lab_admin,
+            NewsCreate(
+                scope="laboratory",
+                laboratory_id=self.laboratory_id,
+                title="Переезд проекта",
+                content=self.content,
+                gallery_urls=[photo_url],
+                attachments=[{
+                    "url": file_url,
+                    "name": "Отчёт.pdf",
+                    "size": 2048,
+                    "content_type": "application/pdf",
+                }],
+                employee_ids=[self.employee_id],
+            ),
+        )
+        updated = await NewsRepository.update(
+            created["id"],
+            self.lab_admin,
+            NewsUpdate(
+                scope="laboratory",
+                organization_id=None,
+                laboratory_id=self.second_laboratory_id,
+                employee_ids=[self.employee_id],
+            ),
+        )
+        self.assertEqual(updated["laboratory_id"], self.second_laboratory_id)
+        self.assertEqual(updated["gallery_urls"], [photo_url])
+        self.assertEqual(updated["attachments"][0]["url"], file_url)
+
+        published = await NewsRepository.set_published(created["id"], self.lab_admin, True)
+        detail = await NewsRepository.get_public(published["public_id"])
+        self.assertEqual(detail["gallery_urls"], [photo_url])
+        self.assertEqual(detail["attachments"][0]["name"], "Отчёт.pdf")
 
 
 if __name__ == "__main__":

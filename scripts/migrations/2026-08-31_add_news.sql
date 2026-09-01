@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS public.news (
     title VARCHAR(255) NOT NULL,
     content JSONB NOT NULL,
     cover_url TEXT,
+    gallery_urls JSONB NOT NULL DEFAULT '[]'::jsonb,
+    attachments JSONB NOT NULL DEFAULT '[]'::jsonb,
     status VARCHAR(20) NOT NULL DEFAULT 'draft',
     published_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -24,6 +26,12 @@ CREATE TABLE IF NOT EXISTS public.news (
         OR (scope = 'laboratory' AND organization_id IS NULL AND laboratory_id IS NOT NULL)
     )
 );
+
+ALTER TABLE public.news
+    ADD COLUMN IF NOT EXISTS gallery_urls JSONB NOT NULL DEFAULT '[]'::jsonb;
+
+ALTER TABLE public.news
+    ADD COLUMN IF NOT EXISTS attachments JSONB NOT NULL DEFAULT '[]'::jsonb;
 
 CREATE INDEX IF NOT EXISTS idx_news_status_published
     ON public.news (status, published_at DESC);
@@ -43,6 +51,8 @@ CREATE INDEX IF NOT EXISTS idx_news_employees_employee
 
 COMMENT ON TABLE public.news IS 'Platform, organization, and laboratory news';
 COMMENT ON COLUMN public.news.content IS 'Validated TipTap JSON document';
+COMMENT ON COLUMN public.news.gallery_urls IS 'Validated photo album image URLs';
+COMMENT ON COLUMN public.news.attachments IS 'Validated attachment metadata';
 COMMENT ON TABLE public.news_employees IS 'Employees mentioned in a news publication';
 
 COMMIT;

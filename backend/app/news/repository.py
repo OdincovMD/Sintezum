@@ -80,7 +80,11 @@ class NewsRepository:
             "public_id": news.public_id,
             "title": news.title,
             "excerpt": content_to_plain_text(news.content),
-            "preview_image_url": news.cover_url or first_image_url(news.content),
+            "preview_image_url": (
+                news.cover_url
+                or next(iter(news.gallery_urls or []), None)
+                or first_image_url(news.content)
+            ),
             "owner": cls._owner(news, organization, laboratory),
             "employees": cls._employees(news),
             "published_at": news.published_at,
@@ -92,6 +96,8 @@ class NewsRepository:
             **cls._to_list_item(news, organization, laboratory),
             "content": news.content,
             "cover_url": news.cover_url,
+            "gallery_urls": news.gallery_urls or [],
+            "attachments": news.attachments or [],
             "created_at": news.created_at,
             "updated_at": news.updated_at,
         }
@@ -107,6 +113,8 @@ class NewsRepository:
             "title": news.title,
             "content": news.content,
             "cover_url": news.cover_url,
+            "gallery_urls": news.gallery_urls or [],
+            "attachments": news.attachments or [],
             "status": news.status,
             "owner": cls._owner(news, organization, laboratory),
             "employees": cls._employees(news),
@@ -407,6 +415,8 @@ class NewsRepository:
                 title=payload.title,
                 content=payload.content,
                 cover_url=payload.cover_url,
+                gallery_urls=payload.gallery_urls,
+                attachments=[attachment.model_dump() for attachment in payload.attachments],
                 status="draft",
                 employees=employees,
             )
@@ -448,17 +458,55 @@ class NewsRepository:
         async with async_session_factory() as session:
             news = await cls._get_for_change(session, news_id, user, admin=admin)
             patch = payload.model_dump(exclude_unset=True)
+            source_keys = {"scope", "organization_id", "laboratory_id"}
+            source_supplied = bool(source_keys & patch.keys())
+            next_scope = patch.pop("scope", news.scope)
+            next_organization_id = patch.pop("organization_id", news.organization_id)
+            next_laboratory_id = patch.pop("laboratory_id", news.laboratory_id)
+            source_changed = (
+                next_scope,
+                next_organization_id,
+                next_laboratory_id,
+            ) != (news.scope, news.organization_id, news.laboratory_id)
+            if source_supplied and source_changed:
+                target = NewsCreate(
+                    scope=next_scope,
+                    organization_id=next_organization_id,
+                    laboratory_id=next_laboratory_id,
+                    title=news.title,
+                    content=news.content,
+                )
+                if admin:
+                    if next_scope == "organization" and await session.get(models.Organization, next_organization_id) is None:
+                        raise NewsNotFoundError
+                    if next_scope == "laboratory" and await session.get(models.OrganizationLaboratory, next_laboratory_id) is None:
+                        raise NewsNotFoundError
+                else:
+                    await cls._validate_target(session, user, target)
             employee_ids = patch.pop("employee_ids", None)
+            if source_changed and employee_ids is None:
+                employee_ids = []
             if employee_ids is not None:
-                existing_employee_ids = [employee.id for employee in news.employees]
+                existing_employee_ids = (
+                    [] if source_changed else [employee.id for employee in news.employees]
+                )
                 news.employees = await cls._eligible_employees(
                     session,
-                    scope=news.scope,
-                    organization_id=news.organization_id,
-                    laboratory_id=news.laboratory_id,
+                    scope=next_scope,
+                    organization_id=next_organization_id,
+                    laboratory_id=next_laboratory_id,
                     employee_ids=employee_ids,
                     preserve_employee_ids=existing_employee_ids,
                 )
+            if source_changed:
+                news.scope = next_scope
+                news.organization_id = next_organization_id
+                news.laboratory_id = next_laboratory_id
+            if "attachments" in patch:
+                patch["attachments"] = [
+                    attachment.model_dump() if hasattr(attachment, "model_dump") else attachment
+                    for attachment in patch["attachments"]
+                ]
             for key, value in patch.items():
                 setattr(news, key, value)
             news.updated_at = datetime.now(timezone.utc)

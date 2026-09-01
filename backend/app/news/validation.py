@@ -34,6 +34,13 @@ def validate_news_image_url(value: str | None) -> str | None:
     return value
 
 
+def validate_news_file_url(value: str) -> str:
+    value = value.strip()
+    if not value or not _valid_image(value):
+        raise ValueError("Файл должен быть загружен в хранилище платформы")
+    return value
+
+
 def _clean_marks(raw_marks) -> list[dict]:
     if raw_marks is None:
         return []

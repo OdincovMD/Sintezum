@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { NewsManager } from "../../../components/news";
+import { Card } from "../../../components/ui";
 
 export default function NewsTab({ roleKey, organization, laboratories = [] }) {
   const targets = useMemo(() => {
@@ -13,5 +14,9 @@ export default function NewsTab({ roleKey, organization, laboratories = [] }) {
     return result;
   }, [laboratories, organization?.id, organization?.name, roleKey]);
 
-  return <NewsManager endpoint="/profile/news" targets={targets} />;
+  return (
+    <Card variant="solid" padding="lg" className="profile-section-card">
+      <NewsManager endpoint="/profile/news" targets={targets} />
+    </Card>
+  );
 }

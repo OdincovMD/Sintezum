@@ -1,6 +1,6 @@
 """SQLAlchemy-модель новостей."""
 
-from sqlalchemy import CheckConstraint, Column, DateTime, ForeignKey, Index, Integer, String, Table, Text, func
+from sqlalchemy import CheckConstraint, Column, DateTime, ForeignKey, Index, Integer, String, Table, Text, func, text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -40,6 +40,18 @@ class News(BaseModel):
     title = Column(String(255), nullable=False)
     content = Column(JSONB, nullable=False)
     cover_url = Column(Text, nullable=True)
+    gallery_urls = Column(
+        JSONB,
+        nullable=False,
+        default=list,
+        server_default=text("'[]'::jsonb"),
+    )
+    attachments = Column(
+        JSONB,
+        nullable=False,
+        default=list,
+        server_default=text("'[]'::jsonb"),
+    )
     status = Column(String(20), nullable=False, server_default="draft")
     published_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
