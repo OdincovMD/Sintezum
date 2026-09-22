@@ -370,6 +370,9 @@ export default function MainLayout() {
         >
           О нас
         </NavLink>
+        <Link className="main-layout__footer-link" to="/about#user-agreement">
+          Пользовательское соглашение
+        </Link>
         <FeedbackWidget className="main-layout__footer-link feedback-footer-trigger" />
         <span className="main-layout__footer-copy">© 2026 Синтезум</span>
       </footer>

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   ArrowLeft,
   Building2,
@@ -14,6 +14,7 @@ import {
   Search,
   Send,
 } from "lucide-react";
+import UserAgreement from "../components/UserAgreement";
 
 const PROJECT_BLOCKS = [
   {
@@ -62,6 +63,19 @@ const SERVICE_ITEMS = [
 ];
 
 export default function About() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) return;
+    const target = document.getElementById(hash.slice(1));
+    if (!target) return;
+
+    window.requestAnimationFrame(() => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+    });
+  }, [hash]);
+
   return (
     <main className="main privacy-page about-page">
       <div className="privacy-page__back">
@@ -207,6 +221,8 @@ export default function About() {
               </div>
             </section>
           </div>
+
+          <UserAgreement />
 
           <footer className="privacy-page__footer">
             <Link to="/" className="privacy-page__cta">
