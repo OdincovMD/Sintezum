@@ -4,7 +4,6 @@
 Помечает истёкшие подписки и отправляет уведомления пользователям.
 """
 
-import asyncio
 import logging
 
 from app.queries.orm import Orm
@@ -33,6 +32,6 @@ async def _check_expired_subscriptions_async() -> None:
     logger.info("Subscription expiry check completed: %d expired", len(items))
 
 
-def check_subscription_expiry() -> None:
-    """Синхронная обёртка для APScheduler."""
-    asyncio.run(_check_expired_subscriptions_async())
+async def check_subscription_expiry() -> None:
+    """Запустить проверку в event loop FastAPI/AsyncIOScheduler."""
+    await _check_expired_subscriptions_async()

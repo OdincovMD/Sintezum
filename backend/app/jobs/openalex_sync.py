@@ -4,7 +4,6 @@
 Использует app.queries.Orm (Core + Researcher + Representative, native async).
 """
 
-import asyncio
 import logging
 
 from app.queries.orm import Orm
@@ -81,6 +80,6 @@ async def _sync_openalex_data_async() -> None:
     logger.info("OpenAlex sync completed")
 
 
-def sync_openalex_data() -> None:
-    """Синхронная обёртка для APScheduler."""
-    asyncio.run(_sync_openalex_data_async())
+async def sync_openalex_data() -> None:
+    """Запустить синхронизацию в event loop FastAPI/AsyncIOScheduler."""
+    await _sync_openalex_data_async()

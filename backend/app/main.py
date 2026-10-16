@@ -3,7 +3,7 @@
 Инициализирует базу данных, создаёт подключение к s3, создаёт индексы elasticsearch, ставит cron job и регистрирует роутеры.
 """
 
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -21,6 +21,7 @@ from app.bootstrap import (
     ensure_elasticsearch_indexes,
 )
 from app.middleware import StorageUrlRewriteMiddleware
+from app.database import async_engine
 from app.api import home, profile, storage, analytics, search, feedback, news
 from app.api.admin import router as admin_router
 from app.core.api import auth, users, roles
@@ -35,7 +36,7 @@ from app.roles.representative.api import (
     stats,
 )
 
-scheduler = BackgroundScheduler()
+scheduler = AsyncIOScheduler()
 
 app = FastAPI(
     title="Синтезум",
@@ -67,9 +68,34 @@ async def on_startup():
         await seed_trial_subscriptions()
     ensure_storage()
     await ensure_elasticsearch_indexes()
-    scheduler.add_job(sync_openalex_data, "cron", hour=3, minute=0)
-    scheduler.add_job(check_subscription_expiry, "cron", hour=4, minute=0)
+    scheduler.add_job(
+        sync_openalex_data,
+        "cron",
+        hour=3,
+        minute=0,
+        id="openalex_sync",
+        replace_existing=True,
+        coalesce=True,
+        max_instances=1,
+    )
+    scheduler.add_job(
+        check_subscription_expiry,
+        "cron",
+        hour=4,
+        minute=0,
+        id="subscription_expiry",
+        replace_existing=True,
+        coalesce=True,
+        max_instances=1,
+    )
     scheduler.start()
+
+
+@app.on_event("shutdown")
+async def on_shutdown():
+    if scheduler.running:
+        scheduler.shutdown(wait=False)
+    await async_engine.dispose()
 
 
 @app.get("/health")
