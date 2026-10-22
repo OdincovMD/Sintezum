@@ -18778,8 +18778,9 @@ a.request-card__title:hover {
 /* ===== About page grant banner ===== */
 
 .about-grant-banner {
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: minmax(15rem, 20rem) minmax(0, 1fr);
+  align-items: center;
   gap: 2rem;
   padding: 1.5rem 2rem;
   background: linear-gradient(135deg, #faf8f6 0%, #fdf9f7 100%);
@@ -18790,16 +18791,39 @@ a.request-card__title:hover {
   margin-top: 0.75rem;
 }
 
+.about-grant-banner__logos {
+  display: grid;
+  gap: 0.75rem;
+}
+
 .about-grant-banner__logo {
-  flex-shrink: 0;
-  width: 180px;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border: 1px solid rgba(184, 92, 56, 0.12);
+  border-radius: 10px;
 }
 
 .about-grant-banner__logo img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
   display: block;
-  border-radius: 4px;
+  object-fit: contain;
+}
+
+.about-grant-banner__logo--foundation img {
+  width: min(180px, 100%);
+}
+
+.about-grant-banner__logo--platform {
+  padding: 0.5rem;
+}
+
+.about-grant-banner__logo--platform img {
+  width: 100%;
 }
 
 .about-grant-banner__body {
@@ -18838,15 +18862,19 @@ a.request-card__title:hover {
 
 @media (max-width: 640px) {
   .about-grant-banner {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1rem;
     padding: 1.25rem 1rem;
     border-left: none;
     border-top: 4px solid var(--accent);
   }
 
-  .about-grant-banner__logo {
-    width: 150px;
+  .about-grant-banner__logos {
+    width: 100%;
+  }
+
+  .about-grant-banner__logo--foundation img {
+    width: min(150px, 100%);
   }
 }
 

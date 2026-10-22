@@ -101,12 +101,27 @@ export default function About() {
           <section className="about-page__grant-section">
             <h2 className="privacy-section__title">Поддержка проекта</h2>
             <div className="about-grant-banner">
-              <div className="about-grant-banner__logo">
-                <img
-                  src="/images/fasie.svg"
-                  alt="Фонд содействия инновациям"
-                  loading="lazy"
-                />
+              <div className="about-grant-banner__logos">
+                <div className="about-grant-banner__logo about-grant-banner__logo--foundation">
+                  <img
+                    src="/images/fasie.svg"
+                    alt="Фонд содействия инновациям"
+                    width="153"
+                    height="74"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div className="about-grant-banner__logo about-grant-banner__logo--platform">
+                  <img
+                    src="/images/university-technology-entrepreneurship-platform.png"
+                    alt="Платформа университетского технологического предпринимательства"
+                    width="1888"
+                    height="1472"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
               </div>
               <div className="about-grant-banner__body">
                 <p className="about-grant-banner__eyebrow">При поддержке</p>
