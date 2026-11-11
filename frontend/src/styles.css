@@ -18755,7 +18755,7 @@ a.request-card__title:hover {
 
 .grant-banner__logo--platform img,
 .about-grant-banner__logo--platform img {
-  transform: translateY(-0.35rem) scale(1.08);
+  transform: translateY(-0.2rem);
   transform-origin: center;
 }
 
