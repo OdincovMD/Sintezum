@@ -18700,9 +18700,10 @@ a.request-card__title:hover {
 }
 
 .grant-banner {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(22rem, 0.95fr) minmax(0, 1.05fr);
   align-items: center;
-  gap: 2.5rem;
+  gap: clamp(1.25rem, 3vw, 2rem);
   padding: 1.75rem 2.25rem;
   background: linear-gradient(135deg, #faf8f6 0%, #fdf9f7 100%);
   border: 1px solid #ede5dc;
@@ -18711,16 +18712,34 @@ a.request-card__title:hover {
   box-shadow: var(--shadow-sm);
 }
 
-.grant-banner__logo {
-  flex-shrink: 0;
-  width: 190px;
+.grant-banner__logos,
+.about-grant-banner__logos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
 }
 
-.grant-banner__logo img {
+.grant-banner__logo,
+.about-grant-banner__logo {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  height: 8.5rem;
+  overflow: hidden;
+  padding: 1rem 1.125rem;
+  background: #fff;
+  border: 1px solid rgba(184, 92, 56, 0.12);
+  border-radius: 10px;
+}
+
+.grant-banner__logo img,
+.about-grant-banner__logo img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   display: block;
-  border-radius: 4px;
+  object-fit: contain;
 }
 
 .grant-banner__body {
@@ -18750,18 +18769,30 @@ a.request-card__title:hover {
   font-weight: 600;
 }
 
+@media (max-width: 860px) {
+  .grant-banner {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 640px) {
   .grant-banner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.25rem;
     padding: 1.5rem 1.25rem;
     border-left: none;
     border-top: 4px solid var(--accent);
   }
 
-  .grant-banner__logo {
-    width: 150px;
+  .grant-banner__logo,
+  .about-grant-banner__logo {
+    height: 8rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .grant-banner__logos,
+  .about-grant-banner__logos {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -18789,33 +18820,6 @@ a.request-card__title:hover {
   border-radius: 12px;
   box-shadow: var(--shadow-sm);
   margin-top: 0.75rem;
-}
-
-.about-grant-banner__logos {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
-}
-
-.about-grant-banner__logo {
-  display: grid;
-  place-items: center;
-  min-width: 0;
-  height: 8.5rem;
-  overflow: hidden;
-  padding: 1rem 1.125rem;
-  background: #fff;
-  border: 1px solid rgba(184, 92, 56, 0.12);
-  border-radius: 10px;
-}
-
-.about-grant-banner__logo img {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  object-fit: contain;
 }
 
 .about-grant-banner__body {
@@ -18864,16 +18868,6 @@ a.request-card__title:hover {
     padding: 1.25rem 1rem;
     border-left: none;
     border-top: 4px solid var(--accent);
-  }
-
-  .about-grant-banner__logo {
-    height: 8rem;
-  }
-}
-
-@media (max-width: 420px) {
-  .about-grant-banner__logos {
-    grid-template-columns: 1fr;
   }
 }
 

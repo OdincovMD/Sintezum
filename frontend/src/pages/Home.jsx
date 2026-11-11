@@ -302,12 +302,27 @@ export default function Home() {
 
       <section className="section grant-section">
         <div className="grant-banner">
-          <div className="grant-banner__logo">
-            <img
-              src="/images/fasie.svg"
-              alt="Фонд содействия инновациям"
-              loading="lazy"
-            />
+          <div className="grant-banner__logos">
+            <div className="grant-banner__logo">
+              <img
+                src="/images/fasie.svg"
+                alt="Фонд содействия инновациям"
+                width="153"
+                height="74"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="grant-banner__logo">
+              <img
+                src="/images/university-technology-entrepreneurship-platform.png"
+                alt="Платформа университетского технологического предпринимательства"
+                width="1888"
+                height="1472"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           </div>
           <div className="grant-banner__body">
             <span className="grant-banner__eyebrow">При поддержке</span>
