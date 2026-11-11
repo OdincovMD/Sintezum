@@ -303,7 +303,7 @@ export default function Home() {
       <section className="section grant-section">
         <div className="grant-banner">
           <div className="grant-banner__logos">
-            <div className="grant-banner__logo">
+            <div className="grant-banner__logo grant-banner__logo--foundation">
               <img
                 src="/images/fasie.svg"
                 alt="Фонд содействия инновациям"
@@ -313,7 +313,7 @@ export default function Home() {
                 decoding="async"
               />
             </div>
-            <div className="grant-banner__logo">
+            <div className="grant-banner__logo grant-banner__logo--platform">
               <img
                 src="/images/university-technology-entrepreneurship-platform.png"
                 alt="Платформа университетского технологического предпринимательства"
